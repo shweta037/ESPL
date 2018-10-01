@@ -4,7 +4,11 @@ class SiteController extends Controller
 {
 	/**
 	 * Declares class-based actions.
+     *
+     *
 	 */
+
+
 	public function actions()
 	{
 		return array(
@@ -28,13 +32,14 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
         $this->layout = false;
-		// renders the view file 'protected/views/site/index.php'
-		// using the default layout 'protected/views/layouts/main.php'
-        $this->render('/include/dashboard_header');
+        $this->actionLogin();
+
+       /* $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
         $this->render('/site/dashboard');
-		$this->render('/include/dashboard_header');
-	}
+		$this->render('/include/dashboard_header');*/
+
+    }
 
 	/**
 	 * This is the action to handle external exceptions.
@@ -99,12 +104,19 @@ class SiteController extends Controller
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+				//$this->redirect(Yii::app()->user->returnUrl);
+                $this->render('/include/dashboard_header');
+            $this->render('/include/dashboard_leftbar');
+            $this->render('/site/dashboard');
+            $this->render('/include/dashboard_header');
+
 		}
 		// display the login form
         $this->render('login_header');
 		$this->render('login',array('model'=>$model));
         $this->render('login_footer');
+
+
 	}
 
 	/**
@@ -113,6 +125,8 @@ class SiteController extends Controller
 	public function actionLogout()
 	{
 		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+        $url = Yii::app()->createUrl('site/login');
+        Yii::app()->request->redirect($url);
+		//$this->redirect(Yii::app()->homeUrl);
 	}
 }
