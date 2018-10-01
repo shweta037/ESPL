@@ -71,6 +71,7 @@ class CurrencyController extends Controller
 		{
 			$model->attributes=$_POST['Currency'];
 			$model['created_date']=date('Y-m-d H:i:s');
+			$model['created_date']=date('Y-m-d H:i:s');
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
