@@ -36,8 +36,13 @@
 </div>
 </div>
 </body>
+<script type="text/javascript">
+    $.noConflict();
+
+</script>
 <!--   Core JS Files   -->
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/core/jquery.min.js"></script>
+<!--
+<script src="<?php /*echo Yii::app()->request->baseUrl; */?>/assets/js/core/jquery.min.js"></script>-->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/core/popper.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/bootstrap-material-design.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
@@ -61,7 +66,7 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/material-dashboard.js?v=2.0.1"></script>
 <!-- Dashboard scripts -->
 <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>-->
 <!-- Library for adding dinamically elements -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/arrive.min.js" type="text/javascript"></script>
 <!-- Forms Validations Plugin -->
@@ -90,6 +95,11 @@
 
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/demo.js"></script>
 <script type="text/javascript">
+    $.noConflict();
+
+</script>
+<script type="text/javascript">
+
     $(document).ready(function() {
 
         //init wizard
@@ -109,5 +119,48 @@
         demo.initVectorMap();
     });
 </script>
+
+<!--<script type="text/javascript">
+    $(document).ready(function() {
+        $('#datatables').DataTable({
+            "pagingType": "full_numbers",
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            responsive: true,
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "Search records",
+            }
+
+        });
+
+
+        var table = $('#datatables').DataTable();
+
+        // Edit record
+        table.on('click', '.edit', function() {
+            $tr = $(this).closest('tr');
+
+            var data = table.row($tr).data();
+            alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
+        });
+
+        // Delete a record
+        table.on('click', '.remove', function(e) {
+            $tr = $(this).closest('tr');
+            table.row($tr).remove().draw();
+            e.preventDefault();
+        });
+
+        //Like record
+        table.on('click', '.like', function() {
+            alert('You clicked on Like button');
+        });
+
+        $('.card .material-datatables label').addClass('form-group');
+    });
+</script>-->
 
 </html>

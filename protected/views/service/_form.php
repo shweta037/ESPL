@@ -39,16 +39,20 @@
 		<?php echo $form->textField($model,'service_name',array('size'=>60,'maxlength'=>255,'class'=>"form-control", 'id'=>"exampleEmail",'required'=>"true")); ?>
 		<?php echo $form->error($model,'service_name'); ?>
 	</div>
+        </div>
+
+<!--
+        <div class="form-group">
             <div class="row">
-                <label for="service_name" class="bmd-label-floating"> <?php echo $form->labelEx($model,'service_name'); ?></label>
-
-                <?php  $items = ArrayHelper::map(Model::find()->all(), 'id', 'name');
-                $form->field($model, 'attribute')->dropDownList($items) ?>
-                <?php echo $form->dropDownList($model,'service_name',array('size'=>60,'maxlength'=>255,'class'=>"form-control", 'id'=>"exampleEmail",'required'=>"true")); ?>
-                <?php echo Html::dropDownList('status', $select, $sexes,array('class'=>"form-control")); ?>
-                <?php echo $form->error($model,'service_name'); ?>
+                <label for="service_name" class="bmd-label-floating" ><?php
+/*                    echo $form->labelEx($model,'status');*/?></label>
+                <?php /*$data = CHtml::listData(Status::model()->findAll(), 'id', 'status_name');
+                $htmlOptions =     array('size' => '1', 'prompt'=>'-- select status --','class'=>"form-control");
+                echo $form->listBox($model,'status', $data, $htmlOptions);
+                echo $form->error($model,'status');
+                */?>
             </div>
-
+        </div>-->
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save',array('class'=>"btn btn-rose")); ?>
