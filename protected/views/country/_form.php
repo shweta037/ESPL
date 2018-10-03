@@ -32,7 +32,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>128,'class'=>"form-control", 'id'=>"service_name",'required'=>"true")); ?>
+		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>128,'class'=>"form-control", 'id'=>"name",'required'=>"true")); ?>
 		<?php echo $form->error($model,'name'); ?>
 	</div>
 
