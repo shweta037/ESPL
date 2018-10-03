@@ -62,6 +62,7 @@ class InvoiceStageController extends Controller
 	 */
 	public function actionCreate()
 	{
+        $this->layout = false;
 		$model=new InvoiceStage;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -72,12 +73,16 @@ class InvoiceStageController extends Controller
 			$model->attributes=$_POST['InvoiceStage'];
             $model['created_date']=date('Y-m-d H:i:s');
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('invoiceStage/admin');
+            Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('create',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -87,6 +92,7 @@ class InvoiceStageController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+        $this->layout = false;
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -96,12 +102,16 @@ class InvoiceStageController extends Controller
 		{
 			$model->attributes=$_POST['InvoiceStage'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('invoiceStage/admin');
+            Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('update',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -123,10 +133,14 @@ class InvoiceStageController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $this->layout = false;
 		$dataProvider=new CActiveDataProvider('InvoiceStage');
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -134,14 +148,18 @@ class InvoiceStageController extends Controller
 	 */
 	public function actionAdmin()
 	{
+        $this->layout = false;
 		$model=new InvoiceStage('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['InvoiceStage']))
 			$model->attributes=$_GET['InvoiceStage'];
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
