@@ -90,6 +90,7 @@ class ServiceController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+        $this->layout = false;
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -128,6 +129,7 @@ class ServiceController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $this->layout = false;
 		$dataProvider=new CActiveDataProvider('Service');
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
@@ -142,6 +144,7 @@ class ServiceController extends Controller
 	 */
 	public function actionAdmin()
 	{
+        $this->layout = false;
 		$model=new Service('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Service']))
