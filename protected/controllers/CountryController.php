@@ -62,6 +62,7 @@ class CountryController extends Controller
 	 */
 	public function actionCreate()
 	{
+        $this->layout = false;
 		$model=new Country;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -73,10 +74,12 @@ class CountryController extends Controller
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('create',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -86,6 +89,7 @@ class CountryController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+        $this->layout = false;
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -97,10 +101,12 @@ class CountryController extends Controller
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('update',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -122,10 +128,14 @@ class CountryController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $this->layout = false;
 		$dataProvider=new CActiveDataProvider('Country');
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -133,14 +143,17 @@ class CountryController extends Controller
 	 */
 	public function actionAdmin()
 	{
+        $this->layout = false;
 		$model=new Country('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Country']))
 			$model->attributes=$_GET['Country'];
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
