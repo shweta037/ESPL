@@ -73,7 +73,9 @@ class ServiceController extends Controller
 			$model->attributes=$_POST['Service'];
             $model['created_date']=date('Y-m-d H:i:s');
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//$this->redirect(array('view','id'=>$model->id));
+
+			    $this->actionAdmin();
 		}
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
