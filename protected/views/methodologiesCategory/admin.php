@@ -35,9 +35,9 @@ $('.search-form form').submit(function(){
                             <i class="material-icons">assignment</i>
                         </div>
                         <div class="row">
-                            <div class="col-md-6"><h4 class="card-title">Manage Invoice Stages</h4></div>
-                            <div class="col-md-6"><a href="<?php echo Yii::app()->request->baseUrl; ?>/invoiceStage/create">
-                                    <input class="btn btn-rose" type="button" name="yt0" value="Add Invoice Stage" style="float:right;">
+                            <div class="col-md-6"><h4 class="card-title">Manage Methodologies Category</h4></div>
+                            <div class="col-md-6"><a href="<?php echo Yii::app()->request->baseUrl; ?>/methodologiesCategory/create">
+                                    <input class="btn btn-rose" type="button" name="yt0" value="Add Methodologies Category" style="float:right;">
                                 </a>
                             </div>
                         </div>
