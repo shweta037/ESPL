@@ -51,9 +51,13 @@ class HolidaysController extends Controller
 	 */
 	public function actionView($id)
 	{
+        $this->layout = false;
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -62,6 +66,7 @@ class HolidaysController extends Controller
 	 */
 	public function actionCreate()
 	{
+        $this->layout = false;
 		$model=new Holidays;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -73,11 +78,15 @@ class HolidaysController extends Controller
             $model['created_date']=date('Y-m-d H:i:s');
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
+               // $url = Yii::app()->createUrl('holidays/admin');
+            //Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('create',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -87,6 +96,7 @@ class HolidaysController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+        $this->layout = false;
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -96,12 +106,16 @@ class HolidaysController extends Controller
 		{
 			$model->attributes=$_POST['Holidays'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('holidays/admin');
+            Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('update',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -123,10 +137,14 @@ class HolidaysController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $this->layout = false;
 		$dataProvider=new CActiveDataProvider('Holidays');
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -134,14 +152,17 @@ class HolidaysController extends Controller
 	 */
 	public function actionAdmin()
 	{
+        $this->layout = false;
 		$model=new Holidays('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Holidays']))
 			$model->attributes=$_GET['Holidays'];
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
