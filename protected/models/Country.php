@@ -28,8 +28,8 @@ class Country extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id', 'required'),
-			array('id, is_deleted', 'numerical', 'integerOnly'=>true),
+			//array('id', 'required'),
+			//array('id, is_deleted', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>128),
 			array('created_date, modified_date', 'safe'),
 			// The following rule is used by search().
@@ -57,7 +57,7 @@ class Country extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'name' => 'Name',
-			'is_deleted' => 'Is Deleted',
+			//'is_deleted' => 'Is Deleted',
 			'created_date' => 'Created Date',
 			'modified_date' => 'Modified Date',
 		);
@@ -83,7 +83,7 @@ class Country extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name,true);
-		$criteria->compare('is_deleted',$this->is_deleted);
+	//	$criteria->compare('is_deleted',$this->is_deleted);
 		$criteria->compare('created_date',$this->created_date,true);
 		$criteria->compare('modified_date',$this->modified_date,true);
 
