@@ -106,7 +106,9 @@ class CountryController extends Controller
 		{
 			$model->attributes=$_POST['Country'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('country/admin');
+            Yii::app()->request->redirect($url);
 		}
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');

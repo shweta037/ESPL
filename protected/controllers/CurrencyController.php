@@ -62,6 +62,7 @@ class CurrencyController extends Controller
 	 */
 	public function actionCreate()
 	{
+        $this->layout = false;
 		$model=new Currency;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -73,12 +74,16 @@ class CurrencyController extends Controller
 			$model['created_date']=date('Y-m-d H:i:s');
 			$model['created_date']=date('Y-m-d H:i:s');
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('currency/admin');
+            Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('create',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -88,6 +93,7 @@ class CurrencyController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+        $this->layout = false;
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -97,12 +103,16 @@ class CurrencyController extends Controller
 		{
 			$model->attributes=$_POST['Currency'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('currency/admin');
+            Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('update',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -124,10 +134,14 @@ class CurrencyController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $this->layout = false;
 		$dataProvider=new CActiveDataProvider('Currency');
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -135,14 +149,17 @@ class CurrencyController extends Controller
 	 */
 	public function actionAdmin()
 	{
+        $this->layout = false;
 		$model=new Currency('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Currency']))
 			$model->attributes=$_GET['Currency'];
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
