@@ -102,6 +102,12 @@
                                     <span class="sidebar-normal">Methodologies Category </span>
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/methodologies/admin">
+                                    <span class="sidebar-mini">M S C</span>
+                                    <span class="sidebar-normal">Methodologies Sub Category </span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
