@@ -72,6 +72,12 @@
                                     <span class="sidebar-normal"> Service Type </span>
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/country/admin">
+                                    <span class="sidebar-mini"> C </span>
+                                    <span class="sidebar-normal"> Country </span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
