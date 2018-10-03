@@ -37,7 +37,7 @@
 
                                 <div class="row">
 		<?php echo $form->labelEx($model,'stage_name'); ?>
-		<?php echo $form->textField($model,'stage_name',array('size'=>60,'maxlength'=>128,'class'=>"form-control", 'id'=>"holiday_name",'required'=>"true")); ?>
+		<?php echo $form->textField($model,'stage_name',array('size'=>60,'maxlength'=>128,'class'=>"form-control", 'id'=>"stage_name",'required'=>"true")); ?>
 		<?php echo $form->error($model,'stage_name'); ?>
 	</div>
 

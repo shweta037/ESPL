@@ -87,3 +87,12 @@ $('.search-form form').submit(function(){
 		),
 	),
 )); ?>
+                    </div>
+                </div></div>
+        </div></div>
+</div>
+</div>
+<script type="text/javascript">
+    $.noConflict();
+
+</script>
