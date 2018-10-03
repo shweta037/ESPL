@@ -84,6 +84,18 @@
                                     <span class="sidebar-normal"> Currency </span>
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/holidays/admin">
+                                    <span class="sidebar-mini"> H </span>
+                                    <span class="sidebar-normal"> Holidays </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/invoiceStage/admin">
+                                    <span class="sidebar-mini">I S</span>
+                                    <span class="sidebar-normal"> Invoice Stage </span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
