@@ -51,9 +51,13 @@ class CountryController extends Controller
 	 */
 	public function actionView($id)
 	{
+        $this->layout = false;
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -74,7 +78,8 @@ class CountryController extends Controller
 			$model['created_date']= date('Y-m-d H:i:s');
 			if($model->save())
 				//$this->redirect(array('view','id'=>$model->id));
-                $this->actionAdmin();
+                $url = Yii::app()->createUrl('country/admin');
+            Yii::app()->request->redirect($url);
 		}
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
