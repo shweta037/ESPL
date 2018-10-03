@@ -74,8 +74,9 @@ class ServiceController extends Controller
             $model['created_date']=date('Y-m-d H:i:s');
 			if($model->save())
 				//$this->redirect(array('view','id'=>$model->id));
-
-			    $this->actionAdmin();
+                $url = Yii::app()->createUrl('service/admin');
+            Yii::app()->request->redirect($url);
+			    //$this->actionAdmin();
 		}
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
