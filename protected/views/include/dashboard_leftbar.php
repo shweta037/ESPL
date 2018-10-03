@@ -96,6 +96,12 @@
                                     <span class="sidebar-normal"> Invoice Stage </span>
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/methodologiesCategory/admin">
+                                    <span class="sidebar-mini">M C</span>
+                                    <span class="sidebar-normal">Methodologies Category </span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
