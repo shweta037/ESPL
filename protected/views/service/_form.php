@@ -36,7 +36,7 @@
 
 	<div class="row">
         <label for="service_name" class="bmd-label-floating"> <?php echo $form->labelEx($model,'service_name'); ?></label>
-		<?php echo $form->textField($model,'service_name',array('size'=>60,'maxlength'=>255,'class'=>"form-control", 'id'=>"exampleEmail",'required'=>"true")); ?>
+		<?php echo $form->textField($model,'service_name',array('size'=>60,'maxlength'=>255,'class'=>"form-control", 'id'=>"service_name",'required'=>"true")); ?>
 		<?php echo $form->error($model,'service_name'); ?>
 	</div>
         </div>
