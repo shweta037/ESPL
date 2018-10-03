@@ -105,6 +105,7 @@ class HolidaysController extends Controller
 		if(isset($_POST['Holidays']))
 		{
 			$model->attributes=$_POST['Holidays'];
+            $model['created_date']= date('Y-m-d H:i:s');
 			if($model->save())
 				//$this->redirect(array('view','id'=>$model->id));
                 $url = Yii::app()->createUrl('holidays/admin');

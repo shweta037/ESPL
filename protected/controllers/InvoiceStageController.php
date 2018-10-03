@@ -101,6 +101,7 @@ class InvoiceStageController extends Controller
 		if(isset($_POST['InvoiceStage']))
 		{
 			$model->attributes=$_POST['InvoiceStage'];
+            $model['created_date']= date('Y-m-d H:i:s');
 			if($model->save())
 				//$this->redirect(array('view','id'=>$model->id));
                 $url = Yii::app()->createUrl('invoiceStage/admin');

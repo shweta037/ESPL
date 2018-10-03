@@ -102,6 +102,7 @@ class ServiceController extends Controller
 		if(isset($_POST['Service']))
 		{
 			$model->attributes=$_POST['Service'];
+            $model['created_date']= date('Y-m-d H:i:s');
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}

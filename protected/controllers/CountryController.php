@@ -105,6 +105,7 @@ class CountryController extends Controller
 		if(isset($_POST['Country']))
 		{
 			$model->attributes=$_POST['Country'];
+            $model['created_date']= date('Y-m-d H:i:s');
 			if($model->save())
 				//$this->redirect(array('view','id'=>$model->id));
                 $url = Yii::app()->createUrl('country/admin');
