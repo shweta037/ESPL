@@ -21,10 +21,10 @@
 		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>128)); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'is_deleted'); ?>
-		<?php echo $form->textField($model,'is_deleted'); ?>
-	</div>
+<!--	<div class="row">
+		<?php /*echo $form->label($model,'is_deleted'); */?>
+		<?php /*echo $form->textField($model,'is_deleted'); */?>
+	</div>-->
 
 	<div class="row">
 		<?php echo $form->label($model,'created_date'); ?>

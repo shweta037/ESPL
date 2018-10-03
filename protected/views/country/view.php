@@ -15,15 +15,15 @@ $this->menu=array(
 	array('label'=>'Manage Country', 'url'=>array('admin')),
 );
 ?>
-
-<h1>View Country #<?php echo $model->id; ?></h1>
+<!--
+<h1>View Country #<?php /*echo $model->id; */?></h1>-->
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id',
 		'name',
-		'is_deleted',
+		//'is_deleted',
 		'created_date',
 		'modified_date',
 	),

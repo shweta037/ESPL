@@ -13,9 +13,9 @@
 	<?php echo CHtml::encode($data->name); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('is_deleted')); ?>:</b>
-	<?php echo CHtml::encode($data->is_deleted); ?>
-	<br />
+	<!--<b><?php /*echo CHtml::encode($data->getAttributeLabel('is_deleted')); */?>:</b>
+	<?php /*echo CHtml::encode($data->is_deleted); */?>
+	<br />-->
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('created_date')); ?>:</b>
 	<?php echo CHtml::encode($data->created_date); ?>
