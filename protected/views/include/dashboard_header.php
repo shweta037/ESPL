@@ -18,7 +18,8 @@
     <!-- Documentation extras -->
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="<?php echo Yii::app()->request->baseUrl; ?>/assets/assets-for-demo/demo.css" rel="stylesheet" />
-
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/core/jquery.min.js"></script>
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/demo.js"></script>
     <!-- iframe removal -->
 </head>
 

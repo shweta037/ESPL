@@ -41,8 +41,8 @@
 
 </script>
 <!--   Core JS Files   -->
-<!--
-<script src="<?php /*echo Yii::app()->request->baseUrl; */?>/assets/js/core/jquery.min.js"></script>-->
+
+
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/core/popper.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/bootstrap-material-design.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
@@ -93,7 +93,7 @@
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/fullcalendar.min.js"></script>
 <!-- demo init -->
 
-<script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/demo.js"></script>
+
 <script type="text/javascript">
     $.noConflict();
 

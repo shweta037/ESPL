@@ -42,7 +42,15 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
                         <div class="card-icon">
                             <i class="material-icons">assignment</i>
                         </div>
-                        <h4 class="card-title">Manage Services</h4>
+                        <div class="row">
+                            <div class="col-md-6"><h4 class="card-title">Manage Services</h4></div>
+                            <div class="col-md-6"><a href="<?php echo Yii::app()->request->baseUrl; ?>/service/create">
+                                <input class="btn btn-rose" type="botton" name="yt0" value="Add Service Type" style="float:right;">
+                                </a>
+                            </div>
+                        </div>
+
+
                     </div>
                     <div class="card-body">
 
