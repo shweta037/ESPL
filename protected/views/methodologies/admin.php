@@ -63,11 +63,14 @@ $('.search-form form').submit(function(){
 	'filter'=>$model,
 	'columns'=>array(
 		'id',
-		'category_id',
+		//'category_id',
+       // 'd.category_name',
 		'name',
-		'is_deleted',
+        'category_name',
+		//'is_deleted',
 		'created_date',
 		'modified_date',
+
 		array(
 			'class'=>'CButtonColumn',
             'header' => 'Action',
