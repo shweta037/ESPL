@@ -108,6 +108,18 @@
                                     <span class="sidebar-normal">Methodologies Sub Category </span>
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/projectRegion/admin">
+                                    <span class="sidebar-mini">P R</span>
+                                    <span class="sidebar-normal">Project Region </span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/proposalStatus/admin">
+                                    <span class="sidebar-mini">P S</span>
+                                    <span class="sidebar-normal">Project Status </span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
