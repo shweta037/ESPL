@@ -19,6 +19,10 @@
  */
 class EsplEmployeeDetails extends CActiveRecord
 {
+
+
+    public $profile_image;
+    public $new_model;
 	/**
 	 * @return string the associated database table name
 	 */
@@ -35,9 +39,9 @@ class EsplEmployeeDetails extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id, user_role, name,father_name,title,mobile_number,active_status', 'required'),
-            array('profile_image, whatsapp_number'),
+			array('user_id, user_role, name', 'required'),
 			array('user_id, user_role', 'numerical', 'integerOnly'=>true),
+          //  array('[profile_image]','file','extensions' => 'png, jpg'),
 			array('name', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
