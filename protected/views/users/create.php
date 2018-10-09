@@ -12,7 +12,13 @@ $this->menu=array(
 	array('label'=>'Manage Users', 'url'=>array('admin')),
 );
 ?>
+<!--
+<h1>Create Users</h1>-->
 
-<h1>Create Users</h1>
+<?php
 
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+//$model='Users';
+$employeedetailmodel='EsplEmployeeDetails';
+//$this->renderPartial('_form', array('model'=>$model));
+$this->renderPartial('_form',array('model'=>$model,'new_model'=>$employeedetailmodel));
+?>
