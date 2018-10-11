@@ -4,7 +4,20 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="form">
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-10">
+
+
+                <div class="form">
+                    <div class="card ">
+                        <div class="card-header card-header-rose card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">mail_outline</i>
+                            </div>
+                            <h4 class="card-title">Create Currency</h4>
+                        </div>
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'service-sub-category-form',
@@ -14,45 +27,54 @@
 	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
 )); ?>
+                        <div class="card-body ">
+                            <div class="form-group">
+                                <?php echo $form->errorSummary($model); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+                                <div class="row">
+                            <?php echo $form->labelEx($model,'service category'); ?>
 
-	<?php echo $form->errorSummary($model); ?>
+                            <?php
 
+                            $models = ServiceCategory::model()->findAll(); //load the model from which u need the data
+
+                            $data = CHtml::listData($models, 'id', 'service_cat_name');// fetch the column name from the table
+
+                            /* $htmlOptions =     array( 'prompt'=>'-- Select Service Type --','class'=>"form-control",'selected'=>'selected','onChange' => 'javascript:description(this.selectedIndex)' );*/
+                            $htmlOptions =     array( 'prompt'=>'-- Select Service Type --','class'=>"form-control",'selected'=>'selected' );
+                            // print_r($data);
+                            echo $form->dropDownList($model,'serviceId', $data, $htmlOptions);
+
+                            echo $form->error($model,'serviceId');?>
+                            <!--  <div id="description_id" style="display:none;">
+
+                                  <input type="" name="EsplProposal[description]"></textarea>
+                              </div>
+                              <script>
+                                  function description(id)
+                                  {
+
+                                    //  alert(id);
+                                      if(id !=1)
+                                          document.getElementById("description_id").style.display="block";
+                                  }
+                              </script>-->
+                        </div></div>
 	<div class="row">
-		<?php echo $form->labelEx($model,'serviceId'); ?>
-		<?php echo $form->textField($model,'serviceId'); ?>
-		<?php echo $form->error($model,'serviceId'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'service_name'); ?>
-		<?php echo $form->textField($model,'service_name',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->labelEx($model,'Service Sub Category'); ?>
+		<?php echo $form->textField($model,'service_name',array('class'=>"form-control", 'id'=>"currency_code",'required'=>"true")); ?>
 		<?php echo $form->error($model,'service_name'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'is_deleted'); ?>
-		<?php echo $form->textField($model,'is_deleted'); ?>
-		<?php echo $form->error($model,'is_deleted'); ?>
-	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'created_date'); ?>
-		<?php echo $form->textField($model,'created_date'); ?>
-		<?php echo $form->error($model,'created_date'); ?>
-	</div>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'modified_date'); ?>
-		<?php echo $form->textField($model,'modified_date'); ?>
-		<?php echo $form->error($model,'modified_date'); ?>
-	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
-	</div>
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save',array('class'=>"btn btn-rose")); ?>
+    </div>
 
-<?php $this->endWidget(); ?>
+                    <?php $this->endWidget(); ?>
 
-</div><!-- form -->
+                </div><!-- form -->
+            </div>
+        </div></div></div></div></div></div>
