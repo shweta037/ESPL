@@ -16,7 +16,7 @@
                             <div class="card-icon">
                                 <i class="material-icons">mail_outline</i>
                             </div>
-                            <h4 class="card-title">Create Currency</h4>
+                            <h4 class="card-title">Create Client Details</h4>
                         </div>
 
 <?php $form=$this->beginWidget('CActiveForm', array(
