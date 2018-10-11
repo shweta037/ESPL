@@ -56,7 +56,7 @@ class ServiceSubCategory extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'serviceId' => 'Service',
+			'serviceId' => 'Service Id',
 			'service_name' => 'Service Name',
 			'is_deleted' => 'Is Deleted',
 			'created_date' => 'Created Date',
