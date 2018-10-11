@@ -70,6 +70,7 @@ class EsplEmployeeDetails extends CActiveRecord
 			'user_id' => 'User',
 			'user_role' => 'User Role',
 			'name' => 'Employee Name',
+            'address' => 'Employee Address',
             'father_name' => 'Father Name',
             'title' =>'Title',
             'profile_image'=>'Profile Image',
@@ -102,6 +103,7 @@ class EsplEmployeeDetails extends CActiveRecord
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('user_role',$this->user_role);
 		$criteria->compare('name',$this->name,true);
+        $criteria->compare('address',$this->address,true);
 		$criteria->compare('father_name',$this->father_name,true);
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('profile_image',$this->profile_image,true);
