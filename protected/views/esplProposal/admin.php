@@ -26,14 +26,29 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Espl Proposals</h1>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">assignment</i>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><h4 class="card-title">Manage Proposals</h4></div>
+                            <div class="col-md-6"><a href="<?php echo Yii::app()->request->baseUrl; ?>/EsplProposal/create">
+                                    <input class="btn btn-rose" type="button" name="yt0" value="Add Proposal" style="float:right;">
+                                </a>
+                            </div>
+                        </div>
 
-<p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+                    </div>
+                    <div class="card-body">
+
+
+                        <?php //echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
@@ -42,17 +57,17 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'espl-proposal-grid',
+    'itemsCssClass'=>'table table-striped table-no-bordered table-hover dataTable dtr-inline',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'id',
-		'service_type',
+		//'id',
 		'service_category',
 		'service_sub_category',
 		'project_scale',
-		'project_type',
-		/*
-		'proposal_number',
+		//'project_type',
+
+		/*'proposal_number',
 		'proposal_issue_date',
 		'proposa_revision_number',
 		'client_name',
@@ -68,12 +83,30 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'project_title',
 		'project_external_number',
 		'team_lead',
-		'created_date',
-		'created_by',
-		'modified_date',
-		*/
-		array(
-			'class'=>'CButtonColumn',
-		),
+
+		'created_by',*/
+
+
+        array(
+            'class'=>'CButtonColumn',
+            'header' => 'Action',
+            'template'=>'{view}{update}{delete}',
+            'buttons'=>array(
+
+                'update'=>array(
+                    'label'=>'<i class="material-icons"></i>',
+                    'htmlOptions'=>array('style'=>'width: 50px; text-align: center;', 'class'=>'zzz'),
+                    'option'=>array('class'=>'btn btn-link btn-info btn-just-icon like')
+                ),
+                'delete'=>array(
+                    'visible'=>'$data["id"]==0?true:false',
+                ),
+                'view'=>array(
+                    'visible'=>'$data["id"]==0?true:false',
+                ),
+            ),
+
+
+        ),
 	),
 )); ?>

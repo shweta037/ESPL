@@ -13,6 +13,5 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create EsplProposal</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

@@ -16,10 +16,7 @@
 		<?php echo $form->textField($model,'id'); ?>
 	</div>
 
-	<div class="row">
-		<?php echo $form->label($model,'service_type'); ?>
-		<?php echo $form->textField($model,'service_type',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
+
 
 	<div class="row">
 		<?php echo $form->label($model,'service_category'); ?>

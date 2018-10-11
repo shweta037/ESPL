@@ -9,9 +9,7 @@
 	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('service_type')); ?>:</b>
-	<?php echo CHtml::encode($data->service_type); ?>
-	<br />
+
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('service_category')); ?>:</b>
 	<?php echo CHtml::encode($data->service_category); ?>

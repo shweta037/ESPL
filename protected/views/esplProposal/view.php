@@ -22,7 +22,7 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id',
-		'service_type',
+
 		'service_category',
 		'service_sub_category',
 		'project_scale',
