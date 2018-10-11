@@ -58,7 +58,7 @@ class Methodologies extends CActiveRecord
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */
-	public function attributeLabels()
+	public function attributeLabels() //here is  the fields names are been displayed in the frontend which can be changed
 	{
 		return array(
 			'id' => 'ID',
