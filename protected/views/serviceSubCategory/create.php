@@ -13,6 +13,5 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create ServiceSubCategory</h1>
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>
