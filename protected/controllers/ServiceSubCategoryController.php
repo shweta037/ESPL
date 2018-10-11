@@ -51,9 +51,13 @@ class ServiceSubCategoryController extends Controller
 	 */
 	public function actionView($id)
 	{
+        $this->layout = false;
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -62,6 +66,7 @@ class ServiceSubCategoryController extends Controller
 	 */
 	public function actionCreate()
 	{
+        $this->layout = false;
 		$model=new ServiceSubCategory;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -72,12 +77,16 @@ class ServiceSubCategoryController extends Controller
 			$model->attributes=$_POST['ServiceSubCategory'];
             $model['created_date']=date('Y-m-d H:i:s');
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
 
+                $url = Yii::app()->createUrl('serviceSubCategory/admin');
+            Yii::app()->request->redirect($url);
+		}
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('create',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -87,6 +96,7 @@ class ServiceSubCategoryController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+        $this->layout = false;
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -96,12 +106,15 @@ class ServiceSubCategoryController extends Controller
 		{
 			$model->attributes=$_POST['ServiceSubCategory'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('serviceSubCategory/admin');
+            Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('update',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -123,10 +136,14 @@ class ServiceSubCategoryController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $this->layout = false;
 		$dataProvider=new CActiveDataProvider('ServiceSubCategory');
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -134,14 +151,17 @@ class ServiceSubCategoryController extends Controller
 	 */
 	public function actionAdmin()
 	{
+        $this->layout = false;
 		$model=new ServiceSubCategory('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['ServiceSubCategory']))
 			$model->attributes=$_GET['ServiceSubCategory'];
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -158,6 +178,8 @@ class ServiceSubCategoryController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+
+
 
 	/**
 	 * Performs the AJAX validation.
