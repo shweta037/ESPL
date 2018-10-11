@@ -1,11 +1,18 @@
 
     <!-- End Navbar -->
-    <div class="content">
+    <div class="">
         <div class="container-fluid">
 
             <!-- <button type="button" class="btn btn-round btn-default dropdown-toggle btn-link" data-toggle="dropdown">
 7 days
 </button> -->
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h3><span style="color:#000000;">
+    <?php echo "Welcome &nbsp;". ucfirst(Yii::app()->user->getName());?></span></h3>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="card card-chart">
