@@ -51,6 +51,7 @@ class ProjectRegionController extends Controller
 	 */
 	public function actionView($id)
 	{
+        $this->layout = false;
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -62,6 +63,7 @@ class ProjectRegionController extends Controller
 	 */
 	public function actionCreate()
 	{
+        $this->layout = false;
 		$model=new ProjectRegion;
 
 		// Uncomment the following line if AJAX validation is needed
@@ -72,12 +74,16 @@ class ProjectRegionController extends Controller
 			$model->attributes=$_POST['ProjectRegion'];
             $model['created_date']=date('Y-m-d H:i:s');
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			//	$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('projectRegion/admin');
+            Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('create',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -87,6 +93,7 @@ class ProjectRegionController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+        $this->layout = false;
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -96,12 +103,16 @@ class ProjectRegionController extends Controller
 		{
 			$model->attributes=$_POST['ProjectRegion'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('projectRegion/admin');
+            Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('update',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -111,6 +122,7 @@ class ProjectRegionController extends Controller
 	 */
 	public function actionDelete($id)
 	{
+        $this->layout = false;
 		$this->loadModel($id)->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
@@ -123,10 +135,14 @@ class ProjectRegionController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $this->layout = false;
 		$dataProvider=new CActiveDataProvider('ProjectRegion');
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -134,14 +150,17 @@ class ProjectRegionController extends Controller
 	 */
 	public function actionAdmin()
 	{
+        $this->layout = false;
 		$model=new ProjectRegion('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['ProjectRegion']))
 			$model->attributes=$_GET['ProjectRegion'];
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
