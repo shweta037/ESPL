@@ -36,9 +36,9 @@ $('.search-form form').submit(function(){
                             <i class="material-icons">assignment</i>
                         </div>
                         <div class="row">
-                            <div class="col-md-6"><h4 class="card-title">Manage Currencies</h4></div>
-                            <div class="col-md-6"><a href="<?php echo Yii::app()->request->baseUrl; ?>/currency/create">
-                                    <input class="btn btn-rose" type="button" name="yt0" value="Add Currency" style="float:right;">
+                            <div class="col-md-6"><h4 class="card-title">Manage Clients</h4></div>
+                            <div class="col-md-6"><a href="<?php echo Yii::app()->request->baseUrl; ?>/EsplClient/create">
+                                    <input class="btn btn-rose" type="button" name="yt0" value="Add Client" style="float:right;">
                                 </a>
                             </div>
                         </div>
