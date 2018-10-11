@@ -26,6 +26,7 @@ class EsplLeavesController extends Controller
 	 */
 	public function accessRules()
 	{
+        $this->layout = false;
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
@@ -51,9 +52,12 @@ class EsplLeavesController extends Controller
 	 */
 	public function actionView($id)
 	{
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -73,10 +77,12 @@ class EsplLeavesController extends Controller
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('create',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -97,10 +103,12 @@ class EsplLeavesController extends Controller
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('update',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -123,9 +131,12 @@ class EsplLeavesController extends Controller
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('EsplLeaves');
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -137,10 +148,12 @@ class EsplLeavesController extends Controller
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['EsplLeaves']))
 			$model->attributes=$_GET['EsplLeaves'];
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
