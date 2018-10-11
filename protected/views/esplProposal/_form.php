@@ -149,14 +149,25 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'proposa_revision_number'); ?>
+		<?php echo $form->labelEx($model,'proposal_revision_number'); ?>
 		<?php echo $form->textField($model,'proposa_revision_number',array('class'=>"form-control", 'id'=>"currency_code",'required'=>"true")); ?>
 		<?php echo $form->error($model,'proposa_revision_number'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'client_name'); ?>
-		<?php echo $form->textField($model,'client_name',array('class'=>"form-control", 'id'=>"currency_code",'required'=>"true")); ?>
+
+            <?php
+            $models = EsplClient::model()->findAll(); //load the model from which u need the data
+
+            $data = CHtml::listData($models, 'id', 'client_name');// fetch the column name from the table
+
+            /* $htmlOptions =     array( 'prompt'=>'-- Select Service Type --','class'=>"form-control",'selected'=>'selected','onChange' => 'javascript:description(this.selectedIndex)' );*/
+            $htmlOptions =     array('prompt'=>'-- Select Client Name--','class'=>"form-control", 'selected'=>'selected','onChange' => 'javascript:contractsigned(this.selectedIndex)' );
+            // print_r($data);
+            echo $form->dropDownList($model,'client_name', $data, $htmlOptions);
+            ?>
+
 		<?php echo $form->error($model,'client_name'); ?>
 	</div>
 
