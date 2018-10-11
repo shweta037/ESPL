@@ -88,7 +88,7 @@ class EsplRole extends CActiveRecord
 		$criteria->compare('created_date',$this->created_date,true);
 		$criteria->compare('modified_date',$this->modified_date,true);
         $criteria->group = 'i.id';
-		print_r($this->permission);
+		//print_r($this->permission);
        // $criteria->addCondition('i.id = 2');//this is where condition
         $criteria->join= 'JOIN status d ON  (find_in_set(d.id,i.permission))';
         $criteria->together = true;
