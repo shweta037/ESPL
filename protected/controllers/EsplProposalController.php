@@ -32,7 +32,7 @@ class EsplProposalController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
+				'actions'=>array('create','update','dynamicsubcategories','employeedetails'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -66,14 +66,34 @@ class EsplProposalController extends Controller
 		$model=new EsplProposal;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['EsplProposal']))
 		{
+
+            //$model->categories = implode(",",$_POST['EsplProposal']['categories']);
+           //  print_r($_POST['EsplProposal']);exit;
+
 			$model->attributes=$_POST['EsplProposal'];
+            $model['created_date']= date("Y-m-d H:i:s");
+            $model['service_sub_category'] = implode(",",$_POST['EsplProposal']['service_sub_category']);
+            $model['client_representative_name']=$_POST['EsplProposal']['hidden_name'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
+                $getlast=Yii::app()->db->getLastInsertId();
+            $created_date=date("Y-m-d H:i:s");
+            $command= Yii::app()->db->createCommand()
+                ->insert(
+                    'espl_project',
+                    array(
+                        'proposal_id'=>$getlast,
+                        'created_date'=>$created_date,
+                    )
+                );
+
+//                $this->redirect(array('view','id'=>$model->id));
+               $url = Yii::app()->createUrl('EsplProposal/admin');
+            Yii::app()->request->redirect($url);
+		}//
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
 		$this->render('create',array(
@@ -89,21 +109,27 @@ class EsplProposalController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+        $this->layout = false;
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['EsplProposal']))
 		{
 			$model->attributes=$_POST['EsplProposal'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+                die();
+				//$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('EsplProposal/admin');
+                Yii::app()->request->redirect($url);
 		}
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('update',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -125,10 +151,14 @@ class EsplProposalController extends Controller
 	 */
 	public function actionIndex()
 	{
+        $this->layout = false;
 		$dataProvider=new CActiveDataProvider('EsplProposal');
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -136,16 +166,67 @@ class EsplProposalController extends Controller
 	 */
 	public function actionAdmin()
 	{
+        $this->layout = false;
 		$model=new EsplProposal('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['EsplProposal']))
 			$model->attributes=$_GET['EsplProposal'];
-
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 		$this->render('admin',array(
 			'model'=>$model,
 		));
+        $this->render('/include/dashboard_footer');
 	}
 
+	//ajax function to get sub categories
+    public function actiondynamicsubcategories(){
+      $countryid=$_POST['service_category'];;
+        $data=ServiceSubCategory::model()->findAll('serviceId= "'.$countryid.'"',
+            array(':serviceId'=>(int) $_POST['service_category']));
+
+        $data=CHtml::listData($data,'id','service_name');
+        foreach($data as $value=>$name)
+        {
+            echo CHtml::tag('option', array('value'=>$value),CHtml::encode($name),true);
+        }
+       // exit;
+    }
+
+
+    public function actionemployeedetails(){
+      $userid=$_POST['client_representative_name'];
+
+     // echo $userid;exit;
+     //   $data=EsplEmployeeDetails::model()->findAll('user_id= "'.$userid.'"',
+       //     array(':user_id'=>(int) $_POST['client_representative_name']),'email');
+        $data = Yii::app()->db->createCommand('SELECT users.id,users.email,emp.name,emp.address,emp.mobile_number FROM users join espl_employee_details as emp on users.id= emp.user_id where user_id= "'.$userid.'"')->queryAll();
+        //$data=CHtml::textField($data,'id','email','address');
+
+
+     foreach($data as $value){
+        // print_r($value);
+
+        $c_email=  $value['email'];
+          $address = $value['address'];
+         $mnumber = $value['mobile_number'];
+         $name = $value['name'];
+         $data = array(
+             'email' => $c_email,
+             'address' => $address,
+             'mobilenumber'=>$mnumber,
+             'name'=>$name
+         );
+        // echo $c_email."*****".$c_name;
+         echo json_encode($data);
+  // exit;
+       //  echo $c_email.",".$c_name;
+       /*$a= '<input type="text" value="'.$value['email'].'" class="form-control" name="client_representative_email" id="client_representative_email"/>';
+         echo '<input type="text" value="'.$value['name'].'" class="form-control" name="client_representative_name" id="client_representative_name"/>';*/
+     }
+
+
+    }
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
