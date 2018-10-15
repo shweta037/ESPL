@@ -72,14 +72,15 @@ class EsplProposalController extends Controller
 		{
 
             //$model->categories = implode(",",$_POST['EsplProposal']['categories']);
-           //  print_r($_POST['EsplProposal']);exit;
-
+         //   print_r($_POST);
 			$model->attributes=$_POST['EsplProposal'];
             $model['created_date']= date("Y-m-d H:i:s");
-            $model['service_sub_category'] = implode(",",$_POST['EsplProposal']['service_sub_category']);
+           // $model['service_sub_category'] = implode(",",$_POST['EsplProposal']['service_sub_category']);
             $model['client_representative_name']=$_POST['EsplProposal']['hidden_name'];
 			if($model->save())
-                $getlast=Yii::app()->db->getLastInsertId();
+              $getlast=Yii::app()->db->getLastInsertId();
+			 // echo $getlast;
+		//	exit;
             $created_date=date("Y-m-d H:i:s");
             $command= Yii::app()->db->createCommand()
                 ->insert(
