@@ -9,6 +9,7 @@
  * @property string $subject
  * @property string $leave_status
  * @property string $to_date
+ * @property string $leave_request_days
  * @property string $from_date
  * @property string $message
  * @property string $created_date
@@ -36,7 +37,7 @@ class EsplLeaveManagement extends CActiveRecord
 			array('subject, message', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, subject, to_date, from_date, message, created_date, modified_date', 'safe', 'on'=>'search'),
+			array('id, subject, to_date, from_date,leave_request_days, message, created_date, modified_date', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -88,10 +89,11 @@ class EsplLeaveManagement extends CActiveRecord
 
 		$criteria=new CDbCriteria;
         $criteria->alias = 'i';
-        $criteria->select = 'd.status_name as leave_status,i.id,i.leave_type,i.subject,i.to_date,i.from_date,i.message,i.created_date, i.modified_date';
+        $criteria->select = 'd.status_name as leave_status,i.id,i.leave_request_days,i.leave_type,i.subject,i.to_date,i.from_date,i.message,i.created_date, i.modified_date';
 		$criteria->compare('id',$this->id);
         $criteria->compare('leave_type',$this->leave_type,true);
         $criteria->compare('leave_status',$this->leave_status,true);
+        $criteria->compare('leave_request_days',$this->leave_request_days,true);
 		$criteria->compare('subject',$this->subject,true);
 		$criteria->compare('to_date',$this->to_date,true);
 		$criteria->compare('from_date',$this->from_date,true);
