@@ -67,7 +67,8 @@ class EsplLeaveManagementController extends Controller
 	public function actionCreate()
 	{
 		$model=new EsplLeaveManagement;
-
+       $id =Yii::app()->user->getId();
+        $total_leaves= $_POST['total_leaves'];
 		// Uncomment the following line if AJAX validation is needed
 		 $this->performAjaxValidation($model);
 
@@ -76,7 +77,10 @@ class EsplLeaveManagementController extends Controller
 
 		  //  print_r($_POST);exit;
 			$model->attributes=$_POST['EsplLeaveManagement'];
+
+
             $total_leaves= $_POST['total_leaves'];
+            $leave_type = $_POST['EsplLeaveManagement']['leave_type'];
 			$datetime1 = $_POST['EsplLeaveManagement']['from_date'];
             $datetime2 =  $_POST['EsplLeaveManagement']['to_date'];
             $date1 = new DateTime($datetime1);
@@ -84,28 +88,53 @@ class EsplLeaveManagementController extends Controller
 
             $diff=date_diff($date1,$date2);
             $datediff=$diff->format("%R%a");
+            $resource_cnt = Yii::app()->db->createCommand()
+                ->select('sum(leave_request_days)as total_leaves')
+                ->from('espl_leave_management')
+
+                ->where('user_id=:id', array(':id'=>$id))
+                ->andWhere('leave_type=:leave_type', array(':leave_type'=>$leave_type))
+                ->queryRow();
+
+            $total_leaves_from_db= $resource_cnt['total_leaves'];
+
             $model['created_date']=date("Y-m-d H:i:s");
             $model['user_id']=Yii::app()->user->getId();
             $model['leave_request_days']= $datediff;
-            if($total_leaves>=$datediff){
-                if($model->save())
-                    //  echo $interval;
+
+            if($total_leaves_from_db == ''){
+                if($total_leaves>=$datediff){
+                    if($model->save())
+                        //  echo $interval;
+
+                        $error="done";
+
+                    echo $error;
+                        $model->refresh();
+                }elseif($total_leaves<=$datediff){
+
+                //  $error= "You are not allowed to take more than the leaves allocated";
+
+                   $error="1";
+                    echo ($error);
+                }
+            }else{
+
+                if($total_leaves_from_db>=$datediff){
+                    $error="done";
+
+                    echo $error;
                     $model->refresh();
-            }elseif($total_leaves<=$datediff){
+                }elseif($total_leaves_from_db<=$datediff){
+                     $leave_left = $total_leaves - $total_leaves_from_db;
+                    $error=$leave_left;
+                    // echo $leave_left;
+                    //$error= "You have $leave_left leaves left";
+                    echo ($error);
+                }
+            }
 
-                $error= "You are not allowed to take more than the leaves allocated";
-                echo ($error);
-            }/*elseif($total_leaves==$datediff){
-                echo "From date should be greater than to date";
-            }*/
 
-           // print_r($_POST);exit;
-            //exit;
-			//print_r($model);exit;
-		/*	if($model->save())
-              //  echo $interval;
-                $model->refresh();*/
-			//	$this->redirect(array('view','id'=>$model->id));
 		}
      /*   $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
