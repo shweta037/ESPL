@@ -144,6 +144,7 @@ echo '<div class="modal-dialog">
                                 'class'=>"form-control "
                             ),
                         ));?>
+
                         <?php echo $form->error($model,'from_date'); ?>
                     </div>
 
@@ -299,12 +300,14 @@ success:function(data){
   // var result = JSON.parse(data);
 
 console.log(data);
-if(data == 'You are not allowed to take more than the leaves allocated'){
-    alert(data);
+if(data == 1){
+    alert("You are not allowed to take more than the leaves allocated");
 
+}else if(data == 'done'){
+        window.location.href= "<?php echo Yii::app()->request->baseUrl; ?>/EsplLeaveManagement/admin";
 }else
 {
-    window.location.href= "<?php echo Yii::app()->request->baseUrl; ?>/EsplLeaveManagement/admin";
+    alert("you have only " + data + " leaves left");
 }
 
 },
