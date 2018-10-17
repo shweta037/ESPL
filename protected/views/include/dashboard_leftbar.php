@@ -162,7 +162,20 @@ Tania Andrew
                     <li class="nav-item ">
                         <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/EsplProposal/admin">
                             <span class="sidebar-mini">P S</span>
-                            <span class="sidebar-normal">Espl Proposal</span>
+                            <span class="sidebar-normal">Proposal</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/esplProject/admin">
+                            <span class="sidebar-mini">P</span>
+                            <span class="sidebar-normal">Project</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item ">
+                        <a class="nav-link" href="<?php echo Yii::app()->request->baseUrl; ?>/esplFinance/admin">
+                            <span class="sidebar-mini">F</span>
+                            <span class="sidebar-normal">Finance</span>
                         </a>
                     </li>
 
