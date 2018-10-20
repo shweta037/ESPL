@@ -24,8 +24,14 @@ class ServiceController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-	public function accessRules()
+	/*public function accessRules()
 	{
+
+	    $role = Yii::app()->user->role;
+
+	   // echo Yii::app()->user->getState('role');
+
+	    $project = $role;
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
@@ -37,15 +43,72 @@ class ServiceController extends Controller
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
+				'users'=>array('@'),
+               // 'expression' => array($this, 'Project'),
+               // 'role'=>array('Project')
+                'roles'=>array('Admin', 'editor'),
+               // 'expression'=>array((Yii::app()->user->role == "admin") ||() Yii::app()->user->role == "Project"),
+
+            ),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
 		);
-	}
+	}*/
+    public function accessRules()
 
-	/**
+    {
+
+
+
+        if( Yii::app()->user->getState('role') =="Admin")
+
+        {
+
+            $arr =array('index','view','create','update','admin');   // give all access to admin
+
+        }else if( Yii::app()->user->getState('role') =="Project")
+
+        {
+
+            $arr =array('index','view','update','admin');  // give all access to staff
+
+        }
+
+        else
+
+        {
+
+            $arr = array('');          //  no access to other user
+
+        }
+
+
+
+        return array(
+
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+
+                'actions'=>$arr,
+
+                'users'=>array('@'),
+
+            ),
+
+
+
+            array('deny',  // deny all users
+
+                'users'=>array('*'),
+
+            ),
+
+        );
+
+    }
+
+
+    /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
