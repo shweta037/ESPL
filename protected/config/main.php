@@ -35,6 +35,7 @@ return array(
 
 		'user'=>array(
 			// enable cookie-based authentication
+           // 'class' => 'application.path.to.BNDWebUser',
 			'allowAutoLogin'=>true,
 		),
 
@@ -52,7 +53,10 @@ return array(
 
 		// database settings are configured in database.php
 		'db'=>require(dirname(__FILE__).'/database.php'),
-
+        'authManager'=>array(
+            'class'=>'CPhpAuthManager',
+            'defaultRoles'=>array('authenticated'),
+        ),
 		'errorHandler'=>array(
 			// use 'site/error' action to display errors
 			'errorAction'=>YII_DEBUG ? null : 'site/error',
@@ -67,9 +71,9 @@ return array(
 				),
 				// uncomment the following to show log messages on web pages
 
-				array(
+				/*array(
 					'class'=>'CWebLogRoute',
-				),
+				),*/
 
 			),
 		),
