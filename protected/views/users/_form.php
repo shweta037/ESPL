@@ -8,7 +8,7 @@
 <div class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-12">
 
 
                 <div class="form">
@@ -22,7 +22,13 @@
 
                         <?php $form=$this->beginWidget('CActiveForm', array(
                             'id'=>'users-form',
-                            //'enctype' => 'multipart/form-data',
+
+                            'htmlOptions' => array(
+
+                                'enctype' => 'multipart/form-data'
+
+                            ),
+
                             // Please note: When you enable ajax validation, make sure the corresponding
                             // controller action is handling ajax validation correctly.
                             // There is a call to performAjaxValidation() commented in generated controller code.
@@ -34,78 +40,67 @@
 
                         ?>
                         <div class="card-body ">
-                            <div class="form-group">
+                            <div class="form-group row">
+                                <div class="col-md-6">
 
-                                <div class="row">
-                                    <label>User Name</label>
-                                    <input type="text" name="Users[username]"  class="form-control"/>
+                                    <?php echo $form->labelEx($model,'Role');
+                                    $models = Role::model()->findAll(); //load the model from which u need the data
+                                    $data = CHtml::listData($models, 'id', 'description');// fetch the column name from the table
+                                    /* $htmlOptions =     array( 'prompt'=>'-- Select Service Type --','class'=>"form-control",'selected'=>'selected','onChange' => 'javascript:description(this.selectedIndex)' );*/
+                                    $htmlOptions =     array( 'prompt'=>'-- Select Role--','class'=>"form-control",'selected'=>'selected' ,'required'=>'required' );
+                                    // print_r($data);
+                                    echo $form->dropDownList($model,'role_id', $data, $htmlOptions);?>
+                                    <?php echo $form->error($model,'role_id'); ?>
+
+                                    <label>Employee Name</label>
+                                    <input type="text" name="name"  class="form-control" required />
                                     <div class="errorMessage"></div>
-                                </div>
-
-                                <div class="row">
-                                    <label>Email</label>
-                                    <input type="text" name="Users[email]"  class="form-control"/>
-                                    <div class="errorMessage"></div>
-                                </div>
-                                <div class="row">
-                                    <label>Password</label>
-                                    <input type="text" name="Users[password]"  class="form-control"/>
-                                    <div class="errorMessage"></div>
-                                </div>
-                                <div class="row">
-
-
-                                    <label for="service_name" class="bmd-label-floating" >Employee Name</label>
-                                    <?php $data = Yii::app()->db->createCommand()->select('user_id,name')->from('espl_employee_details')->queryAll();
-                                    //  echo  yii::app()->user->getState('email');
-                                    ?>
-                                    <select class="form-control" name="EsplEmployeeDetails[name]">
-                                        <option class="form-control">----Please Select-----</option>
-                                        <?php foreach ($data as $val){
-                                            $value[]=$val;?>
-
-                                            <option value="<?php echo $val['name'] ?>" class="dropdown-item"><?php echo $val['name'] ?></option>
-                                        <?php } ?>
-                                    </select>
-
-
-                                    <div class="errorMessage"></div>
-
-                                </div>
-
-
-                                <div class="row ">
-
-
-                                    <label for="service_name" class="bmd-label-floating" >User Role</label>
-                                    <?php $data = Yii::app()->db->createCommand()->select('id, role_name')->from('espl_role')->queryAll();
-
-                                    ?>
-                                    <select class="form-control" name="EsplEmployeeDetails[role_name]">
-                                        <option class="form-control">----Please Select-----</option>
-                                        <?php foreach ($data as $val){
-                                            $value[]=$val;?>
-
-                                            <option value="<?php echo $val['id'] ?>" class="dropdown-item"><?php echo $val['role_name'] ?></option>
-                                        <?php } ?>
-                                    </select>
-                                    <div class="errorMessage"></div>
-                                </div>
-                                <div class="row">
-                                    <label>Father Name</label>
-                                    <input type="text" name="EsplEmployeeDetails[father_name]"  class="form-control"/>
-                                    <div class="errorMessage"></div>
-                                </div>
-                                <div class="row">
+                               
+                                
                                     <label>Title</label>
-                                    <input type="text" name="EsplEmployeeDetails[title]"   class="form-control"/>
+                                    <input type="text" name="title"   class="form-control" required />
                                     <div class="errorMessage"></div>
 
-                                </div>
-                                <div class="row">
+
+                                
+                                    <label>Father Name</label>
+                                    <input type="text" name="father_name"  class="form-control" required />
+                                    <div class="errorMessage"></div>
+
+
+                                
+                                    <label>User Name</label>
+                                    <input type="text" name="Users[username]"  class="form-control" required />
+                                    <div class="errorMessage"></div>
+
+                                
+                                    <label>Email</label>
+                                    <input type="text" name="Users[email]"  class="form-control" required />
+                                    <div class="errorMessage"></div>
+
+                                    <label>Password</label>
+                                    <input type="password" name="Users[password]"  class="form-control" required />
+                                    <div class="errorMessage"></div>
+
+
+
+                                    <label> Address</label>
+                                    <input type="text" name="address"  class="form-control" required />
+                                    <div class="errorMessage"></div>
+
+
+
+             </div>
+
+                                <div class="col-md-6">
+
+
+
+
+
                                     <label>Profile Image</label><br/>
 
-                                    <div class="fileinput fileinput-new text-center col-md-4" data-provides="fileinput">
+                                    <div class="fileinput fileinput-new text-center col-md-12" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail">
                                             <img src="<?php echo Yii::app()->request->baseUrl; ?>/assets/img/image_placeholder.jpg" alt="...">
                                         </div>
@@ -114,41 +109,18 @@
                           <span class="btn btn-rose btn-round btn-file">
                             <span class="fileinput-new">Select image</span>
                             <span class="fileinput-exists">Change</span>
-                            <input type="file" name="EsplEmployeeDetails[profile_image]" enctype ='multipart/form-data'/>
+                            <input type="file" name="profile_image" enctype ='multipart/form-data'/>
                           </span>
                                             <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
                                         </div>
                                     </div>
 
-
-
-                                    <?php /* $this->widget('CMultiFileUpload',
-            array(
-                'name'=>'EsplEmployeeDetails[profile_image]',
-                'model'=>$new_model,
-                'attribute' => 'profile_image',
-                'accept'=>'jpg|gif|png|doc|docx|pdf',
-                //'denied'=>'Only doc,docx,pdf and txt are allowed',
-               // 'max'=>4,
-               // 'remove'=>'[x]',
-               // 'duplicate'=>'Already Selected',
-                'htmlOptions' => array(
-                    'enctype' => 'multipart/form-data',
-            )
-            )
-        );
-        */?>
-                                    <div class="errorMessage"></div>
-
-                                </div>
-
-                                <div class="row">
                                     <label>Date of Birth</label>
                                     <?php //echo $form->textField($model,'holiday_date',array('class'=>"form-control datepicker-Inline", 'id'=>"holiday_date",'required'=>"true")); ?>
                                     <?php    $this->widget('zii.widgets.jui.CJuiDatePicker',array(
-                                        'name'=>'EsplEmployeeDetails[date_of_birth]',
+                                        'name'=>'date_of_birth',
                                         'value'=>Yii::app()->getRequest()->getParam("date_of_birth"),
-                                        'model' => $new_model,
+                                        //'model' => $new_model,
                                         'attribute' => 'date_of_birth',//this to insert the value from the field
                                         'flat'=>false,//remove to hide the datepicker
                                         'options'=>array(
@@ -161,49 +133,43 @@
                                         ),
                                     ));?>
 
-                                </div>
-                                <div class="row">
+
+
                                     <label>Mobile Number</label>
-                                    <input type="text" name="EsplEmployeeDetails[mobile_number]"   class="form-control"/>
+                                    <input type="text" name="mobile_number"   class="form-control" required />
                                     <div class="errorMessage"></div>
 
-                                </div>
-                                <div class="row">
+
                                     <label>Whats App Number</label>
-                                    <input type="text" name="EsplEmployeeDetails[whatsapp_number]"   class="form-control"/>
+                                    <input type="text" name="whatsapp_number"   class="form-control"/>
                                     <div class="errorMessage"></div>
 
-                                </div>
-                                <div class="row">
+
                                     <label>Active Status</label>
 
-                                    <?php $data1 = $data = Yii::app()->db->createCommand()->select('id, status_name')->from('status')->where('id IN (3,4,5,6)')->queryAll();;
+                                    <?php $data1 = $data = Yii::app()->db->createCommand()->select('id, status_name')->from('status')->where('id IN (1,2)')->queryAll();;
 
 
-                                    //  print_r($data['id']);
-
-                                    // exit;
                                     ?>
 
-                                    <select class="form-control" name="EsplEmployeeDetails[active_status]">
+                                    <select class="form-control" name="active_status" required>
                                         <option class="form-control">----Please Select-----</option>
                                         <?php foreach ($data1 as $valstatus){
                                             $valueb[]=$valstatus;
-                                            print_r($data1);
+                                           // print_r($data1);
                                             ?>
 
                                             <option value="<?php echo $valstatus['status_name'] ?>" class="dropdown-item"><?php echo $valstatus['status_name'] ?></option>
                                         <?php } ?>
                                     </select>
-                                </div>
 
-
-
-
-
-                                <div class="row buttons">
+                                    <label>Health Benefits</label>
+                                    <input type="text" name="health_benefits"   class="form-control"/>
+                                    <div class="errorMessage"></div>
                                     <?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save',array('class'=>"btn btn-rose")); ?>
+
                                 </div>
+
 
                                 <?php $this->endWidget(); ?>
 
