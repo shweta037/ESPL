@@ -7,7 +7,33 @@ class SiteController extends Controller
      *
      *
 	 */
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
 
+    public function accessRules()
+    {
+        return array(
+            array('allow',  // allow all users to perform only 'login' action
+                'actions'=>array('login'),
+                'users'=>array('*'),
+            ),
+            array('allow',  // allow all users to perform only 'login' action
+                'actions'=>array('logout'),
+                'users'=>array('*'),
+            ),
+            array('allow', // allow admin user to perform 'admin' AND 'delete' AND 'index' actions
+                'actions'=>array('admin','delete','index','view','contact'),
+                'users'=>array('*'),
+            ),
+            array('deny',  // deny all users
+                'users'=>array('*'),
+            ),
+        );
+    }
 
 	public function actions()
 	{
@@ -25,6 +51,8 @@ class SiteController extends Controller
 		);
 	}
 
+
+
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
@@ -32,12 +60,13 @@ class SiteController extends Controller
 	public function actionIndex()
 	{
         $this->layout = false;
-        $this->actionLogin();
 
-       /* $this->render('/include/dashboard_header');
+
+        $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
         $this->render('/site/dashboard');
-		$this->render('/include/dashboard_header');*/
+        $this->render('/include/dashboard_footer');
+
 
     }
 
@@ -60,7 +89,10 @@ class SiteController extends Controller
 	 */
 	public function actionContact()
 	{
+
+
 		$model=new ContactForm;
+
 		if(isset($_POST['ContactForm']))
 		{
 			$model->attributes=$_POST['ContactForm'];
@@ -72,10 +104,14 @@ class SiteController extends Controller
 					"Reply-To: {$model->email}\r\n".
 					"MIME-Version: 1.0\r\n".
 					"Content-Type: text/plain; charset=UTF-8";
+if( mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers)){
 
-				mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers);
-				Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
-				$this->refresh();
+    Yii::app()->user->setFlash('contact','Thank you for contacting us. We will respond to you as soon as possible.');
+    $this->refresh();
+}else{
+    Yii::app()->user->setFlash('contact','some error'.$model->email);
+}
+
 			}
 		}
 		$this->render('contact',array('model'=>$model));
@@ -104,11 +140,13 @@ class SiteController extends Controller
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
-				//$this->redirect(Yii::app()->user->returnUrl);
-                $this->render('/include/dashboard_header');
+				$this->redirect(Yii::app()->user->returnUrl);
+                /*$url = Yii::app()->createUrl('site/index');
+            Yii::app()->request->redirect($url);*/
+         /*$this->render('/include/dashboard_header');
             $this->render('/include/dashboard_leftbar');
             $this->render('/site/dashboard');
-            $this->render('/include/dashboard_header');
+            $this->render('/include/dashboard_header');*/
 
 		}
 		// display the login form
