@@ -1,5 +1,6 @@
 <?php
 
+
 class UsersController extends Controller
 {
     /**
@@ -25,25 +26,57 @@ class UsersController extends Controller
      * @return array access control rules
      */
     public function accessRules()
+
     {
+
+        $this->layout = false;
+
+        if( Yii::app()->user->getState('role') =="Admin")
+
+        {
+
+            $arr =array('index','view','create','update','admin');   // give all access to admin
+
+        }else if( Yii::app()->user->getState('role') =="Project")
+
+        {
+
+            $arr =array('index','view','update','admin');  // give all access to staff
+
+        }
+
+        else
+
+        {
+
+            $arr = array('');         //  no access to other user
+
+        }
+
+
+
         return array(
-            array('allow',  // allow all users to perform 'index' and 'view' actions
-                'actions'=>array('index','view'),
-                'users'=>array('*'),
-            ),
+
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions'=>array('create','update'),
+
+                'actions'=>$arr,
+
                 'users'=>array('@'),
+
             ),
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions'=>array('admin','delete'),
-                'users'=>array('admin'),
-            ),
+
+
+
             array('deny',  // deny all users
+
                 'users'=>array('*'),
+
             ),
+
         );
+
     }
+
 
     /**
      * Displays a particular model.
@@ -51,6 +84,7 @@ class UsersController extends Controller
      */
     public function actionView($id)
     {
+        $this->layout = false;
         $this->render('view',array(
             'model'=>$this->loadModel($id),
         ));
@@ -65,62 +99,59 @@ class UsersController extends Controller
         $this->layout = false;
 
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        // $this->performAjaxValidation($model),
         $model=new Users;
 
-        if(isset($_POST['Users']) && isset($_POST['EsplEmployeeDetails']))
+        if(isset($_POST['Users']))
         {
-
+ // print_r($_POST['Users']),exit,
             $model->attributes=$_POST['Users'];
 
-            /*        $model['username']=$_POST['Users']['username'];
-                      $model['email']=$_POST['Users']['email'];*/
-            $model['password']=MD5($_POST['Users']['password']);
+            /*       'username']=$_POST['Users']['username'],
+                     'email']=$_POST['Users']['email'],*/
+           $model['password']=MD5($_POST['Users']['password']);
             $model['created_date']=date('Y-m-d H:i:s');
+            $model['role_id']=$_POST['Users']['role_id'];
             $model->save();
             $getlast=Yii::app()->db->getLastInsertId();
-            // print_r($model);
-            //echo $getlast;
-
-            $model = new EsplEmployeeDetails();
-            $model->attributes=$_POST['EsplEmployeeDetails'];
-
-            // print_r($model);exit;
-            // $model->profile_image=CUploadedFile::getInstance($model,'profile_image');
-            $rand = rand(0,9999);
-            //   $fecha = date('Y-m-d');
 
 
-            $uploadedFile=CUploadedFile::getInstance($model,'profile_image');
+
 
 
             $pathname= Yii::app()->basePath.'/upload/';
+            $vid_img = time().$_FILES['profile_image']['name'];
+            if (!empty($_FILES['profile_image'])) {
+                /*move to the folder*/
+                $vid_img = time().$_FILES['profile_image']['name'];/*here using time for different different image*/
+                $move = Yii::app()->basePath.'/upload/' .$vid_img;
+                move_uploaded_file($_FILES['profile_image']['tmp_name'], $move);
 
-            $model['name']=$_POST['EsplEmployeeDetails']['name'];
-            $model['date_of_birth']=$_POST['EsplEmployeeDetails']['date_of_birth'];
-            $model['profile_image']=$pathname.$_POST['EsplEmployeeDetails']['profile_image'];
-            $model['date_of_birth']=$_POST['EsplEmployeeDetails']['date_of_birth'];
-            $model['user_id'] = $getlast;
-            $model['user_role'] = $_POST['EsplEmployeeDetails']['role_name'];
-            $model['title'] = $_POST['EsplEmployeeDetails']['title'];
-            $model['father_name'] = $_POST['EsplEmployeeDetails']['father_name'];
-            $model['mobile_number'] = $_POST['EsplEmployeeDetails']['mobile_number'];
-            $model['whatsapp_number'] = $_POST['EsplEmployeeDetails']['whatsapp_number'];
-            $model['active_status'] = $_POST['EsplEmployeeDetails']['active_status'];
-            $model['created_date']=date('Y-m-d H:i:s');
-            //print_r($model);exit;
-            // //  $path= Yii::app()->basePath.'/uploadProfileImage/'.'_'.$model['profile_image'];
+            }
+           // $fileName = "{$rand}-{$uploadedFile}"; // random number + file name
+           // $model->profile_image = $fileName;
+          $insert= Yii::app()->db->createCommand()
+             ->insert(
+             'espl_employee_details',
+                array('name'=>$_POST['name'],
+                'date_of_birth'=>$_POST['date_of_birth'],
+                'profile_image'=>$vid_img,
+                'date_of_birth'=>$_POST['date_of_birth'],
+                'user_id'=> $getlast,
+                'address'=> $_POST['address'],
+                'title'=> $_POST['title'],
+                'father_name'=> $_POST['father_name'],
+                'mobile_number'=> $_POST['mobile_number'],
+                'whatsapp_number'=> $_POST['whatsapp_number'],
+                'active_status'=> $_POST['active_status'],
+                'created_date'=>date('Y-m-d H:i:s'),)
 
-            //  print_r($model);
-            // echo "<hr/>";
-            //  print_r($model);exit;
-            // echo $model['profile_image'];
+        );
 
-            if($model->save() )
                 $url = Yii::app()->createUrl('Users/admin');
             Yii::app()->request->redirect($url);
 
-            // $this->redirect(array('view','id'=>$model->id));
+
         }
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
@@ -142,7 +173,7 @@ class UsersController extends Controller
         $model=$this->loadModel($id);
 
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        // $this->performAjaxValidation($model),
 
         if(isset($_POST['Users']))
         {
@@ -150,10 +181,13 @@ class UsersController extends Controller
             if($model->save())
                 $this->redirect(array('view','id'=>$model->id));
         }
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
 
         $this->render('update',array(
             'model'=>$model,
         ));
+        $this->render('/include/dashboard_footer');
     }
 
     /**
@@ -192,7 +226,7 @@ class UsersController extends Controller
     {
         $this->layout = false;
         $model=new Users('search');
-        $model->unsetAttributes();  // clear any default values
+        $model->unsetAttributes(); // clear any default values
         if(isset($_GET['Users']))
             $model->attributes=$_GET['Users'];
         $this->render('/include/dashboard_header');
