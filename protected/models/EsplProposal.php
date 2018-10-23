@@ -48,12 +48,12 @@ class EsplProposal extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('service_type, service_category, service_sub_category,proposa_revision_number, project_scale, project_type, proposal_number, 
+			array('service_type, service_category,client_representative_email,client_representative_phone, service_sub_category,proposa_revision_number, project_scale, project_type, proposal_number, 
 			    proposal_issue_date, client_name, client_country, proposal_status, contract_value, contract_value_currency, 
 			    client_representative_name, project_title', 'required'),
 			//array('proposal_number, proposa_revision_number, proposal_status, contract_value, client_representative_phone, project_external_number, team_lead, created_by', 'numerical', 'integerOnly'=>true),
 			//array('proposal_number, proposa_revision_number, proposal_status, contract_value, client_representative_phone, project_external_number, team_lead, created_by,service_type, service_category, project_scale, project_type, client_name, client_country, client_representative_name, client_representative_email, client_address, project_title', 'length', 'max'=>255),
-			//array('contract_signed,team_lead','length'),
+			array('project_external_number,attachment_image','length','max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, service_type, service_category, service_sub_category, project_scale, 
