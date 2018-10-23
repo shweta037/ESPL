@@ -48,13 +48,20 @@ class EsplProposal extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('service_type, service_category, service_sub_category, project_scale, project_type, proposal_number, proposal_issue_date, proposa_revision_number, client_name, client_country, proposal_status, contract_value, contract_value_currency, client_representative_name, client_representative_email, client_representative_phone, client_address, project_title, project_external_number, team_lead', 'required'),
-			array('proposal_number, proposa_revision_number, proposal_status, contract_value, client_representative_phone, project_external_number, team_lead, created_by', 'numerical', 'integerOnly'=>true),
-			array('service_type, service_category, service_sub_category, project_scale, project_type, client_name, client_country, client_representative_name, client_representative_email, client_address, project_title', 'length', 'max'=>255),
-			array('contract_value_currency', 'length', 'max'=>120),
+			array('service_type, service_category, service_sub_category,proposa_revision_number, project_scale, project_type, proposal_number, 
+			    proposal_issue_date, client_name, client_country, proposal_status, contract_value, contract_value_currency, 
+			    client_representative_name, project_title', 'required'),
+			//array('proposal_number, proposa_revision_number, proposal_status, contract_value, client_representative_phone, project_external_number, team_lead, created_by', 'numerical', 'integerOnly'=>true),
+			//array('proposal_number, proposa_revision_number, proposal_status, contract_value, client_representative_phone, project_external_number, team_lead, created_by,service_type, service_category, project_scale, project_type, client_name, client_country, client_representative_name, client_representative_email, client_address, project_title', 'length', 'max'=>255),
+			//array('contract_signed,team_lead','length'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, service_type, service_category, service_sub_category, project_scale, project_type, proposal_number, proposal_issue_date, proposa_revision_number, client_name, client_country, proposal_status, contract_signed, contract_value, contract_value_currency, client_representative_name, client_representative_email, client_representative_phone, client_address, project_title, project_external_number, team_lead, created_date, created_by, modified_date', 'safe', 'on'=>'search'),
+			array('id, service_type, service_category, service_sub_category, project_scale, 
+			    project_type, proposal_number, proposal_issue_date, proposa_revision_number, client_name,
+			     client_country, proposal_status, contract_signed, contract_value, contract_value_currency, client_representative_name, 
+			      project_title, 
+			     created_date, created_by, modified_date,client_representative_email,client_representative_phone,client_address,
+			     project_external_number,team_lead,contract_signed,created_by,invoice_status_ids', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,7 +90,7 @@ class EsplProposal extends CActiveRecord
 			'project_type' => 'Project Type',
 			'proposal_number' => 'Proposal Number',
 			'proposal_issue_date' => 'Proposal Issue Date',
-			'proposa_revision_number' => 'Proposa Revision Number',
+			'proposa_revision_number' => 'Proposal Revision Number',
 			'client_name' => 'Client Name',
 			'client_country' => 'Client Country',
 			'proposal_status' => 'Proposal Status',
