@@ -16,6 +16,7 @@ class UserIdentity extends CUserIdentity
 	 * @return boolean whether authentication succeeds.
 	 */
     private $_id ;
+    private $name ;
 	public function authenticate()
 	{
 		/*$users=array(
@@ -38,16 +39,34 @@ class UserIdentity extends CUserIdentity
         else if ($user->password != md5($this->password))
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         else
-            $this->errorCode = self::ERROR_NONE;
-            $this->_id = $user->id;
-//            $this->setState('role', $user->role);
-//            $this->setState('username', $user->name);
-//            $this->setState('userid', $user->id);
+        {
+            $this->_id=$user->id;
+
+            $role=Role::model()->findByPk($user->role_id);
+            $this->setState('role', $role->description);
+            $name = Yii::app()->db->createCommand()
+                ->select('name')
+                ->from('espl_employee_details as e')
+                ->join('users as u', 'u.id=e.user_id')
+                ->where('id=:id', array(':id'=>$user->id))
+                ->queryRow();
+            $this->setState('name', $name->name);
+            $this->errorCode=self::ERROR_NONE;
+
+        }
+        return !$this->errorCode;
+
+
+
         return !$this->errorCode;
 	}
 
     public function getId() {
         return $this->_id ;
     }
+    public function getFirstName() {
+        return $this->_name;
+    }
+
 
 }
