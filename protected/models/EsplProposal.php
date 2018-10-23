@@ -26,6 +26,7 @@
  * @property string $project_title
  * @property integer $project_external_number
  * @property integer $team_lead
+ * @property integer $status_name
  * @property string $created_date
  * @property integer $created_by
  * @property string $modified_date
@@ -35,6 +36,7 @@ class EsplProposal extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+    public $status_name;
 	public function tableName()
 	{
 		return 'espl_proposal';
@@ -89,8 +91,8 @@ class EsplProposal extends CActiveRecord
 			'project_scale' => 'Project Scale',
 			'project_type' => 'Project Type',
 			'proposal_number' => 'Proposal Number',
-			'proposal_issue_date' => 'Proposal Issue Date',
-			'proposa_revision_number' => 'Proposal Revision Number',
+			'proposal_issue_date' => 'Date',
+			'proposa_revision_number' => 'Revision Number',
 			'client_name' => 'Client Name',
 			'client_country' => 'Client Country',
 			'proposal_status' => 'Proposal Status',
@@ -101,7 +103,10 @@ class EsplProposal extends CActiveRecord
 			'client_representative_email' => 'Client Representative Email',
 			'client_representative_phone' => 'Client Representative Phone',
 			'client_address' => 'Client Address',
-			'project_title' => 'Project Title',
+			'project_title' => 'Proposal Name',
+            'status_name'=>'Status',
+             'created_by'=>'Created By',
+            'attachment_image'=>'Attachment',
 			'project_external_number' => 'Project External Number',
 			'team_lead' => 'Team Lead',
 			'created_date' => 'Created Date',
@@ -127,7 +132,8 @@ class EsplProposal extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-
+        $criteria->alias = 'e';
+        $criteria->select = 'e.created_by,d.status_name,e.project_title,e.proposal_issue_date,e.proposa_revision_number,e.attachment_image,e.created_date,e.modified_date';
 		$criteria->compare('id',$this->id);
 		$criteria->compare('service_type',$this->service_type,true);
 		$criteria->compare('service_category',$this->service_category,true);
@@ -154,6 +160,9 @@ class EsplProposal extends CActiveRecord
 		$criteria->compare('created_by',$this->created_by);
 		$criteria->compare('modified_date',$this->modified_date,true);
 
+        $criteria->join= 'JOIN  proposal_status d ON  (d.id=e.proposal_status)';
+        $criteria->together = true;
+        $models = EsplProposal::model()->find($criteria);
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
