@@ -85,9 +85,13 @@ class UsersController extends Controller
     public function actionView($id)
     {
         $this->layout = false;
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
         $this->render('view',array(
             'model'=>$this->loadModel($id),
         ));
+
+        $this->render('/include/dashboard_footer');
     }
 
     /**
@@ -112,14 +116,11 @@ class UsersController extends Controller
            $model['password']=MD5($_POST['Users']['password']);
             $model['created_date']=date('Y-m-d H:i:s');
             $model['role_id']=$_POST['Users']['role_id'];
+          //  $model['created_by']=Yii::app()->user->getId();
             $model->save();
             $getlast=Yii::app()->db->getLastInsertId();
 
-
-
-
-
-            $pathname= Yii::app()->basePath.'/upload/';
+           $pathname= Yii::app()->basePath.'/upload/';
             $vid_img = time().$_FILES['profile_image']['name'];
             if (!empty($_FILES['profile_image'])) {
                 /*move to the folder*/
@@ -144,7 +145,10 @@ class UsersController extends Controller
                 'mobile_number'=> $_POST['mobile_number'],
                 'whatsapp_number'=> $_POST['whatsapp_number'],
                 'active_status'=> $_POST['active_status'],
-                'created_date'=>date('Y-m-d H:i:s'),)
+                'created_date'=>date('Y-m-d H:i:s'),
+                    'created_by'=>Yii::app()->user->getId(),
+                    )
+
 
         );
 
@@ -170,24 +174,84 @@ class UsersController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model=$this->loadModel($id);
+        $model = $this->loadModel($id);
 
+
+        // $model= Users::model()->findAll();
+ // echo "<pre>";
+ // print_r($_POST);exit;
+
+        // echo "helo".$model->name;
         // Uncomment the following line if AJAX validation is needed
         // $this->performAjaxValidation($model),
+       /* */
+        if (isset($_POST['Users'])) {
+            $model->attributes = $_POST['Users'];
+ // print_r($_POST);exit;
 
-        if(isset($_POST['Users']))
-        {
-            $model->attributes=$_POST['Users'];
-            if($model->save())
-                $this->redirect(array('view','id'=>$model->id));
+            $save_users = Yii::app()->db->createCommand()
+                ->update('users',
+                    array('username' => $_POST['Users']['username'],
+                        'role_id' => $_POST['Users']['role_id'],
+
+                        'email' => $_POST['Users']['email'],
+
+                        'password' =>md5(($_POST['Users']['password'])),
+                       ),
+                    'id=:id',
+                    array(':id' => $id)
+                );
+
+        //    print_r($save_users);exit;
+            if ($save_users) {
+                $vid_img = time() . $_FILES['profile_image']['name'];
+                if (!empty($_FILES['profile_image'])) {
+                    /*move to the folder*/
+                    $vid_img = time() . $_FILES['profile_image']['name'];/*here using time for different different image*/
+                    $move = Yii::app()->basePath . '/upload/' . $vid_img;
+                    move_uploaded_file($_FILES['profile_image']['tmp_name'], $move);
+
+                }
+               /* echo "<pre>";
+                print_r($_POST);
+                echo $vid_img;
+                exit;*/
+                $update = Yii::app()->db->createCommand()
+                    ->update('espl_employee_details',
+                        array('name' => $_POST['name'],
+                            'date_of_birth' => $_POST['date_of_birth'],
+                            'profile_image' => $vid_img,
+                            'date_of_birth' => $_POST['date_of_birth'],
+                            'user_id' => $id,
+                            'address' => $_POST['address'],
+                            'title' => $_POST['title'],
+                            'father_name' => $_POST['father_name'],
+                            'mobile_number' => $_POST['mobile_number'],
+                            'whatsapp_number' => $_POST['whatsapp_number'],
+                            'active_status' => $_POST['active_status'],
+                            'created_date' => date('Y-m-d H:i:s'),
+                            'created_by'=>Yii::app()->user->getId(),
+                            ),
+
+                        'user_id=:user_id',
+                        array(':user_id' => $id)
+                    );
+
+               echo $update;
+                //$this->redirect(array('view', 'id' => $model->id));
+                $url = Yii::app()->createUrl('Users/admin');
+                Yii::app()->request->redirect($url);
+
+            }
         }
-        $this->render('/include/dashboard_header');
-        $this->render('/include/dashboard_leftbar');
+            $this->render('/include/dashboard_header');
+            $this->render('/include/dashboard_leftbar');
 
-        $this->render('update',array(
-            'model'=>$model,
-        ));
-        $this->render('/include/dashboard_footer');
+            $this->render('update', array(
+                'model' => $model,
+            ));
+            $this->render('/include/dashboard_footer');
+
     }
 
     /**
@@ -233,6 +297,7 @@ class UsersController extends Controller
         $this->render('/include/dashboard_leftbar');
         $this->render('admin',array(
             'model'=>$model,
+            //'model'=>$this->loadModel($id),
         ));
         $this->render('/include/dashboard_footer');
     }
@@ -247,6 +312,8 @@ class UsersController extends Controller
     public function loadModel($id)
     {
         $model=Users::model()->findByPk($id);
+
+        //print_r($model);
         if($model===null)
             throw new CHttpException(404,'The requested page does not exist.');
         return $model;
@@ -264,4 +331,6 @@ class UsersController extends Controller
             Yii::app()->end();
         }
     }
+
+
 }
