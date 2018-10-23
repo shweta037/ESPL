@@ -19,6 +19,11 @@
 
                         $form=$this->beginWidget('CActiveForm', array(
                             'id'=>'espl-proposal-form',
+                            'htmlOptions' => array(
+
+                                'enctype' => 'multipart/form-data'
+
+                            ),
                             // Please note: When you enable ajax validation, make sure the corresponding
                             // controller action is handling ajax validation correctly.
                             // There is a call to performAjaxValidation() commented in generated controller code.
@@ -27,7 +32,7 @@
                         )); ?>
                         <div class="card-body ">
                             <div class="form-group row">
-                                <div class="col-md-12">
+                                <div class="col-md-12" style="color:red;">
                                     <?php echo $form->errorSummary($model); ?>
                                 </div>
                                 <div class="col-md-6">
@@ -252,6 +257,34 @@
                                 </div>
 
                                 <div class="col-md-6">
+
+
+                                    <div class="row">
+
+
+
+                                        <label>Attachment</label><br/>
+
+                                        <div class="fileinput fileinput-new text-center col-md-12" data-provides="fileinput">
+                                            <div class="fileinput-new thumbnail" >
+                                                <?php if(isset($model['attachment_image'])){?>
+
+                                                   <a href='<?php echo Yii::app()->request->baseUrl;?>/protected/attachment/<?php echo $model['attachment_image'];?>' ><?php echo $model['attachment_image'];?>
+                                               <!-- <img src="<?php /*echo Yii::app()->request->baseUrl."/protected/attachment/".$model['attachment_image'];*/?>" alt=""?>-->
+                                            <?php } ?>
+                                            </div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                            <div>
+                          <span class="btn btn-rose btn-round btn-file">
+                            <span class="fileinput-new">Select Attachment</span>
+                            <span class="fileinput-exists">Change</span>
+                            <input type="file" name="attachment_image" value="<?php echo $model['attachment_image']; ?>"  enctype ='multipart/form-data'/>
+                          </span>
+                                                <a href="#pablo" class="btn btn-danger btn-round fileinput-exists" data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
                                     <div class="row">
                                         <?php echo $form->labelEx($model,'client_representative_name',array('class'=>'col-md-4 col-form-label')); ?>
                                         <div class="col-md-8">
@@ -600,9 +633,9 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
     $(document).ready(function(){
         setFormValidation('#espl-proposal-form');
     });
 
-</script>
+</script>-->
