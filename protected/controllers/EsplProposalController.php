@@ -195,11 +195,18 @@ class EsplProposalController extends Controller
             if (isset($_POST['EsplProposal']['invoice_status_ids'])) {
                 $model['invoice_status_ids'] = implode(",", $_POST['EsplProposal']['invoice_status_ids']);
             }
-            /*echo "<pre>";
-            print_r($_POST['EsplProposal']['invoice_status_ids']);
-            die;*/
+            $model['created_date']= date("Y-m-d H:i:s");
 
-            if ($model->save())
+
+/*
+            $model->save();
+            print_r($model->getErrors());
+            echo "<pre>";
+            print_r($model->attributes);
+            exit;*/
+            if ($model->save()){
+ /* echo "done";
+                exit;*/
                 //$this->redirect(array('view','id'=>$model->id));
                 if ($_POST['EsplProposal']['proposal_status'] == 3) {
                     $command = Yii::app()->db->createCommand()
@@ -214,14 +221,14 @@ class EsplProposalController extends Controller
 
 
                 if ($_POST['EsplProposal']['service_type'] != 1 && isset($_POST['txt_milestone_name']) && $_POST['txt_milestone_name'] != null) {
-                    $milestonelist = Yii::app()->db->createCommand('SELECT stage_id FROM espl_proposal_milestone where proposal_id="'.$id.'"')->queryAll();
-                    $milestone_list  = array();
-                    foreach ($milestonelist as $k=>$milestonelist1){
-                        $milestone_list[]  = $milestonelist[$k]['stage_id'];
+                    $milestonelist = Yii::app()->db->createCommand('SELECT stage_id FROM espl_proposal_milestone where proposal_id="' . $id . '"')->queryAll();
+                    $milestone_list = array();
+                    foreach ($milestonelist as $k => $milestonelist1) {
+                        $milestone_list[] = $milestonelist[$k]['stage_id'];
                     }
 
                     foreach ($_POST['txt_milestone_stageid'] as $key => $item) {
-                        if(in_array($item,$milestone_list)){
+                        if (in_array($item, $milestone_list)) {
                             $milestone_update = Yii::app()->db->createCommand()
                                 ->update(
                                     'espl_proposal_milestone',
@@ -231,9 +238,9 @@ class EsplProposalController extends Controller
                                         'milestone_description' => $_POST['txt_milestone_description'][$key],
                                     ),
                                     'stage_id=:stage_id',
-                                    array(':stage_id'=>$item)
+                                    array(':stage_id' => $item)
                                 );
-                        }else{
+                        } else {
                             $milestone_insert = Yii::app()->db->createCommand()
                                 ->insert(
                                     'espl_proposal_milestone',
@@ -248,6 +255,7 @@ class EsplProposalController extends Controller
                         }
 
                     }
+                }
                 }
 
             $url = Yii::app()->createUrl('EsplProposal/admin');
