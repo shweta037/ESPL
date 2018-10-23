@@ -36,6 +36,8 @@ $('.search-form form').submit(function(){
                             <i class="material-icons">assignment</i>
                         </div>
                         <div class="row">
+
+                            <?php  Yii::app()->user->name;?>
                             <div class="col-md-6"><h4 class="card-title">Manage Proposals</h4></div>
                             <div class="col-md-6"><a href="<?php echo Yii::app()->request->baseUrl; ?>/EsplProposal/create">
                                     <input class="btn btn-rose" type="button" name="yt0" value="Add Proposal" style="float:right;">
@@ -62,35 +64,24 @@ $('.search-form form').submit(function(){
 	'filter'=>$model,
 	'columns'=>array(
 		//'id',
-		'service_category',
-		'service_sub_category',
-		'project_scale',
-		//'project_type',
-
-		/*'proposal_number',
-		'proposal_issue_date',
-		'proposa_revision_number',
-		'client_name',
-		'client_country',
-		'proposal_status',
-		'contract_signed',
-		'contract_value',
-		'contract_value_currency',
-		'client_representative_name',
-		'client_representative_email',
-		'client_representative_phone',
-		'client_address',
 		'project_title',
-		'project_external_number',
-		'team_lead',
-
-		'created_by',*/
+		'proposa_revision_number',
+		'proposal_issue_date',
+        'attachment_image',
+        'status_name',
+       /* array(
+            'header' => 'Created By',
+            'value' => Yii::app()->user->getState('role'),
+        ),*/
+       'created_by',
+        'created_date',
+        'modified_date',
 
 
         array(
             'class'=>'CButtonColumn',
             'header' => 'Action',
-            'template'=>'{view}{update}{delete}',
+            'template'=>'{update}',
             'buttons'=>array(
 
                 'update'=>array(
@@ -98,12 +89,7 @@ $('.search-form form').submit(function(){
                     'htmlOptions'=>array('style'=>'width: 50px; text-align: center;', 'class'=>'zzz'),
                     'option'=>array('class'=>'btn btn-link btn-info btn-just-icon like')
                 ),
-                'delete'=>array(
-                    'visible'=>'$data["id"]==0?true:false',
-                ),
-                'view'=>array(
-                    'visible'=>'$data["id"]==0?true:false',
-                ),
+
             ),
 
 
