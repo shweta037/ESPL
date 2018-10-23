@@ -90,7 +90,7 @@
                                                             <option value="">Select Service Category</option>
                                                             <?php
                                                                 foreach ($category_list as $category){ ?>
-                                                                    <option value="<?php echo $category['service_type_id']; ?>" <?php if($category['id']==$model->attributes['service_category']){ echo "selected"; } ?>>
+                                                                    <option value="<?php echo $category['id']; ?>" <?php if($category['id']==$model->attributes['service_category']){ echo "selected"; } ?>>
                                                                         <?php echo $category['service_cat_name']; ?>
                                                                     </option>
                                                                 <?php }
