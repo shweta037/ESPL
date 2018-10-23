@@ -116,6 +116,15 @@ class EsplProposalController extends Controller
                 $model['invoice_status_ids'] = implode(",", $_POST['EsplProposal']['invoice_status_ids']);
             }
             $model['created_date']= date("Y-m-d H:i:s");
+            $vid_img = time().$_FILES['attachment_image']['name'];
+            if (!empty($_FILES['attachment_image'])) {
+                /*move to the folder*/
+                $vid_img = time().$_FILES['attachment_image']['name'];/*here using time for different different image*/
+                $move = Yii::app()->basePath.'/attachment/' .$vid_img;
+                move_uploaded_file($_FILES['attachment_image']['tmp_name'], $move);
+
+            }
+            $model['attachment_image']=$vid_img;
             //$model['client_representative_name']=$_POST['hidden_name'];
             //$model['contract_signed']=$_POST['EsplProposal']['contract_signed'];
 
@@ -182,7 +191,9 @@ class EsplProposalController extends Controller
 	public function actionUpdate($id)
     {
         $this->layout = false;
+
         $model = $this->loadModel($id);
+        print_r($model->getErrors());
 
         // Uncomment the following line if AJAX validation is needed
         $this->performAjaxValidation($model);
@@ -196,17 +207,18 @@ class EsplProposalController extends Controller
                 $model['invoice_status_ids'] = implode(",", $_POST['EsplProposal']['invoice_status_ids']);
             }
             $model['created_date']= date("Y-m-d H:i:s");
+            $vid_img = time().$_FILES['attachment_image']['name'];
+            if (!empty($_FILES['attachment_image'])) {
+                /*move to the folder*/
+                $vid_img = time().$_FILES['attachment_image']['name'];/*here using time for different different image*/
+                $move = Yii::app()->basePath.'/attachment/' .$vid_img;
+                move_uploaded_file($_FILES['attachment_image']['tmp_name'], $move);
 
+            }
+            $model['attachment_image']=$vid_img;
 
-/*
-            $model->save();
-            print_r($model->getErrors());
-            echo "<pre>";
-            print_r($model->attributes);
-            exit;*/
             if ($model->save()){
- /* echo "done";
-                exit;*/
+
                 //$this->redirect(array('view','id'=>$model->id));
                 if ($_POST['EsplProposal']['proposal_status'] == 3) {
                     $command = Yii::app()->db->createCommand()
