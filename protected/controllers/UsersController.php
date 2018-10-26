@@ -25,56 +25,27 @@ class UsersController extends Controller
      * This method is used by the 'accessControl' filter.
      * @return array access control rules
      */
-    public function accessRules()
 
-    {
-
+    public function accessRules(){
         $this->layout = false;
-
-        if( Yii::app()->user->getState('role') =="Admin")
-
-        {
-
+        if( Yii::app()->user->getState('role') =="Admin"){
             $arr =array('index','view','create','update','admin','combo_off');   // give all access to admin
-
-        }else if( Yii::app()->user->getState('role') =="Project")
-
-        {
-
-            $arr =array('index','view','update','admin');  // give all access to staff
-
-        }
-
-        else
-
-        {
-
+        }else if( Yii::app()->user->getState('role') =="Project"){
+            $arr =array('index','view','update','admin');   // give all access to admin
+        }else if( Yii::app()->user->getState('role') =="Finance"){
+            $arr =array('index','view','update','admin');   // give all access to admin
+        }else{
             $arr = array('');         //  no access to other user
-
         }
-
-
-
         return array(
-
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-
                 'actions'=>$arr,
-
                 'users'=>array('@'),
-
             ),
-
-
-
             array('deny',  // deny all users
-
                 'users'=>array('*'),
-
             ),
-
         );
-
     }
 
 
