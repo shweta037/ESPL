@@ -48,9 +48,11 @@ class UserIdentity extends CUserIdentity
                 ->select('name')
                 ->from('espl_employee_details as e')
                 ->join('users as u', 'u.id=e.user_id')
-                ->where('id=:id', array(':id'=>$user->id))
+                ->where('user_id=:id', array(':id'=>$user->id))
                 ->queryRow();
-            $this->setState('name', $name->name);
+
+
+            $this->setState('name', $name['name']);
             $this->errorCode=self::ERROR_NONE;
 
         }
