@@ -32,11 +32,7 @@ $this->menu=array(
 		'methodological_expert_id',
 		'financial_expert_id',
 		'local_expert_id',
-		'publication_date',
-		'site_visit_completed_date',
-		'findings_issued_date',
-		'draft_report_issued',
-		'final_report_issued',
+
 		'submission_date',
 		'completeness_check_date',
 		'ir_check_date',

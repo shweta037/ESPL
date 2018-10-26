@@ -48,11 +48,11 @@
             'name'=>'Holidays[holiday_date]',
             'value'=>Yii::app()->getRequest()->getParam("holiday_date"),
             'model' => $model,
-            'attribute' => 'holiday_date',
+            'attribute' => 'holiday_date',//this to insert the value from the field
             'flat'=>false,//remove to hide the datepicker
             'options'=>array(
-                'dateFormat' => 'yy-mm-dd',
-                'showAnim'=>'slide',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
+                'dateFormat' => 'yy-mm-dd',//can change the format of date
+                'showAnim'=>'drop',//'slide','fold','slideDown','fadeIn','blind','bounce','clip','drop'
             ),
             'htmlOptions'=>array(
                 'style'=>'',

@@ -13,6 +13,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Create EsplLeaves</h1>
+
 
 <?php $this->renderPartial('_form', array('model'=>$model)); ?>

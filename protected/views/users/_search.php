@@ -4,7 +4,7 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="wide form">
+<div class="wide form" style="display:block !important;">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'action'=>Yii::app()->createUrl($this->route),

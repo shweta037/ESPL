@@ -15,7 +15,7 @@ $this->menu=array(
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();
-	return false;
+	return true;
 });
 $('.search-form form').submit(function(){
 	$('#espl-project-grid').yiiGridView('update', {
@@ -25,6 +25,7 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
+
 <div class="content">
     <div class="container-fluid">
         <div class="row">
@@ -35,18 +36,29 @@ $('.search-form form').submit(function(){
                             <i class="material-icons">Projects</i>
                         </div>
                         <div class="row">
-                            <div class="col-md-6"><h4 class="card-title">Manage Projects</h4></div>
+                            <div class="col-md-6">
+                                <?php if(Yii::app()->user->role=="Finance"){ ?>
+                                <h4 class="card-title">Manage Finance</h4>
+                                <?php }else{ ?>
+                                    <h4 class="card-title">Manage Projects</h4>
+                                <?php } ?>
+                                <?php if(Yii::app()->user->hasFlash('success')):?>
+                                    <b class="flash-success" style="color: #e01717;"><?php echo Yii::app()->user->getFlash('success'); ?></b>
+                                <?php endif; ?>
+                            </div>
 
                         </div>
 
 
                     </div>
                     <div class="card-body">
-                            <div class="search-form" style="display:none">
-                            <?php $this->renderPartial('_search',array(
-                                'model'=>$model,
-                            )); ?>
-                        </div><!-- search-form -->
+                        <?php //echo CHtml::link('Advanced Search','javascript:void(0);',array('class'=>'search-button')); ?>
+                            <!--<div class="search-form" style="display: block;">
+                                <?php /*$this->renderPartial('_search',array(
+                                    'model'=>$model,
+                                )); */?>
+                            </div>-->
+                        <!-- search-form -->
 
                         <?php $this->widget('zii.widgets.grid.CGridView', array(
                             'id'=>'espl-project-grid',
@@ -55,8 +67,8 @@ $('.search-form form').submit(function(){
                             'filter'=>$model,
                             'columns'=>array(
                                 'id',
-                                'proposal_id',
-                                //'teamlead_id',
+                                'project_title',
+                                'teamleader',
                                 'created_date',
                                 'modified_date',
 
@@ -69,11 +81,7 @@ $('.search-form form').submit(function(){
                                 'methodological_expert_id',
                                 'financial_expert_id',
                                 'local_expert_id',
-                                'publication_date',
-                                'site_visit_completed_date',
-                                'findings_issued_date',
-                                'draft_report_issued',
-                                'final_report_issued',
+
                                 'submission_date',
                                 'completeness_check_date',
                                 'ir_check_date',
@@ -100,8 +108,6 @@ $('.search-form form').submit(function(){
                                             'visible'=>'$data["id"]==0?true:false',
                                         ),
                                     ),
-
-
                                 ),
                             ),
                         )); ?>

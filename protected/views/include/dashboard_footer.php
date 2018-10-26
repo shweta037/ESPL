@@ -1,35 +1,14 @@
 <footer class="footer ">
     <div class="container">
         <nav class="pull-left">
-            <ul>
-                <li>
-                    <a href="https://www.creative-tim.com">
-                        Creative Tim
-                    </a>
-                </li>
-                <li>
-                    <a href="http://presentation.creative-tim.com">
-                        About Us
-                    </a>
-                </li>
-                <li>
-                    <a href="http://blog.creative-tim.com">
-                        Blog
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.creative-tim.com/license">
-                        Licenses
-                    </a>
-                </li>
-            </ul>
+
         </nav>
         <div class="copyright pull-right">
             &copy;
             <script>
                 document.write(new Date().getFullYear())
             </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
+            <a href="http://www.vpdl.com/" target="_blank">Virtual Pages</a> for a better management.
         </div>
     </div>
 </footer>
@@ -37,17 +16,19 @@
 </div>
 </body>
 <script type="text/javascript">
-    $.noConflict();
+   /* $.noConflict();
+    jQuery.noConflict();*/
 
 </script>
 <!--   Core JS Files   -->
 
-
+<script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/core/jquery.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/core/popper.min.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/bootstrap-material-design.js"></script>
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+
 <!--  Google Maps Plugin  -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+
 <!--  Plugin for Date Time Picker and Full Calendar Plugin  -->
 <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/moment.min.js"></script>
 <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
@@ -95,7 +76,19 @@
 
 
 <script type="text/javascript">
-    $.noConflict();
+    function setFormValidation(id){
+        $(id).validate({
+            highlight: function(element) {
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
+            },
+            success: function(element) {
+                $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
+            },
+            errorPlacement : function(error, element) {
+                $(element).append(error);
+            },
+        });
+    }
 
 </script>
 <script type="text/javascript">
@@ -115,6 +108,8 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function() {
+        //init DateTimePickers
+        md.initFormExtendedDatetimepickers();
 
         demo.initVectorMap();
     });

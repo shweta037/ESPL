@@ -32,11 +32,11 @@
                                 <?php echo $form->errorSummary($model); ?>
 
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'Sub Category Name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255,'class'=>"form-control", 'id'=>"name",'required'=>"true")); ?>
-		<?php echo $form->error($model,'name'); ?>
-	</div>
+                                    <div class="row">
+                                        <?php echo $form->labelEx($model,'Sub Category Name'); ?>
+                                        <?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>255,'class'=>"form-control", 'id'=>"name",'required'=>"true")); ?>
+                                        <?php echo $form->error($model,'name'); ?>
+                                    </div>
 
 
                                <!-- <div class="row">
@@ -48,7 +48,7 @@
         <div class="form-group">
             <div class="row">
                 <label for="service_name" class="bmd-label-floating" ><?php
-                                                    echo $form->labelEx($model,'category_name');?></label>
+                echo $form->labelEx($model,'category_name');?></label>
                 <?php $data = CHtml::listData(MethodologiesCategory::model()->findAll(), 'id', 'category_name');
                 $htmlOptions =     array('size' => '1', 'prompt'=>'-- select category --','class'=>"form-control",'selected'=>'selected');
                 echo $form->listBox($model,'category_id', $data, $htmlOptions);

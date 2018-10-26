@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" href="<?php echo Yii::app()->request->baseUrl; ?>/assets/img/apple-icon.png">
     <link rel="icon" href="<?php echo Yii::app()->request->baseUrl; ?>/assets/img/favicon.png">
     <title>
-        Material Dashboard by Creative Tim
+        Earthood Services Pvt Ltd
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -18,9 +18,15 @@
     <!-- Documentation extras -->
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="<?php echo Yii::app()->request->baseUrl; ?>/assets/assets-for-demo/demo.css" rel="stylesheet" />
+
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/core/jquery.min.js"></script>
     <script src="<?php echo Yii::app()->request->baseUrl; ?>/assets/js/plugins/demo.js"></script>
     <!-- iframe removal -->
+    <style>
+        .btn-group, .btn-group-vertical { margin-top: 0px !important;}
+    </style>
 </head>
 
 <body class="">
+
+

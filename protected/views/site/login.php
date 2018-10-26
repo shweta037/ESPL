@@ -10,7 +10,7 @@ $this->breadcrumbs=array(
 ?>
 
 
-<div class="container">
+<div class="container" style="">
     <div class="col-md-4 col-sm-6 ml-auto mr-auto">
         <div class="card card-login">
             <div class="card-header card-header-rose text-center">

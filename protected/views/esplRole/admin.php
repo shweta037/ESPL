@@ -48,6 +48,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'id',
 		'role_name',
 		'permission',
+        'status_name',
 		'created_date',
 		'modified_date',
 		array(
