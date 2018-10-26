@@ -11,6 +11,7 @@
  */
 class AuthAssignment extends CActiveRecord
 {
+
 	/**
 	 * @return string the associated database table name
 	 */
