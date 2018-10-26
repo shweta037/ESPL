@@ -20,6 +20,9 @@ class EsplLeaveManagement extends CActiveRecord
 	/**
 	 * @return string the associated database table name
 	 */
+
+	public $name;
+    public $leave_name;
 	public function tableName()
 	{
 		return 'espl_leave_management';
@@ -60,12 +63,15 @@ class EsplLeaveManagement extends CActiveRecord
 		return array(
 			'id' => 'ID',
             'leave_type' => 'Leave Type',
+            'name'=>'Name',
+            'leave_name'=>'Leave Type',
 			'subject' => 'Subject',
 			'to_date' => 'To Date',
 			'from_date' => 'From Date',
 			'message' => 'Message',
             'leave_request_days' => 'Requested Days',
             'leave_status' => 'Status',
+            'approved_by'=>'Approved By',
 			'created_date' => 'Created Date',
 			'modified_date' => 'Modified Date',
 		);
@@ -86,10 +92,11 @@ class EsplLeaveManagement extends CActiveRecord
 	public function search()
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
+        $id=   Yii::app()->user->getId();
 
 		$criteria=new CDbCriteria;
         $criteria->alias = 'i';
-        $criteria->select = 'd.status_name as leave_status,i.id,i.leave_request_days,i.leave_type,i.subject,i.to_date,i.from_date,i.message,i.created_date, i.modified_date';
+        $criteria->select = 'l.leave_name,e.name,i.approved_by,d.status_name as leave_status,i.id,i.leave_request_days,i.leave_type,i.subject,i.to_date,i.from_date,i.message,i.created_date, i.modified_date';
 		$criteria->compare('id',$this->id);
         $criteria->compare('leave_type',$this->leave_type,true);
         $criteria->compare('leave_status',$this->leave_status,true);
@@ -100,7 +107,10 @@ class EsplLeaveManagement extends CActiveRecord
 		$criteria->compare('message',$this->message,true);
 		$criteria->compare('created_date',$this->created_date,true);
 		$criteria->compare('modified_date',$this->modified_date,true);
-        $criteria->join= 'JOIN status d ON (d.id=i.leave_status)';
+        $criteria->join= 'JOIN status d ON (d.id=i.leave_status) left join espl_employee_details as e on e.user_id= i.user_id JOIN espl_leaves as l on l.id=i.leave_type';
+        if( Yii::app()->user->getState('role') !="Admin"){
+            $criteria->addCondition(' e.user_id = ' . $id);//this is where condition
+        }
         $criteria->together = true;
         $models = EsplLeaveManagement::model()->find($criteria);
 		return new CActiveDataProvider($this, array(

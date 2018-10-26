@@ -9,6 +9,7 @@
  * @property integer $permission
  * @property string $created_date
  * @property string $modified_date
+ * @property string $status_name
  */
 class EsplRole extends CActiveRecord
 {
@@ -60,6 +61,7 @@ class EsplRole extends CActiveRecord
 			'status_name' => 'Permission',
 			'created_date' => 'Created Date',
 			'modified_date' => 'Modified Date',
+            'status_name'=>'Status'
 		);
 	}
 
@@ -81,7 +83,7 @@ class EsplRole extends CActiveRecord
 
 		$criteria=new CDbCriteria;
         $criteria->alias = 'i';
-        $criteria->select = 'GROUP_CONCAT(d.status_name )as permission,i.id, i.role_name, i.created_date, i.modified_date';
+        $criteria->select = 'GROUP_CONCAT(d.status_name )as permission,d.status_name,i.id, i.role_name, i.created_date, i.modified_date';
 		$criteria->compare('id',$this->id);
 		$criteria->compare('role_name',$this->role_name,true);
 		$criteria->compare('permission',$this->permission);

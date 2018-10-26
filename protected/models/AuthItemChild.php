@@ -1,25 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "espl_finance".
+ * This is the model class for table "AuthItemChild".
  *
- * The followings are the available columns in table 'espl_finance':
- * @property integer $id
- * @property integer $project_id
- * @property string $registerd_issue_date
- * @property string $travel_invoice_due_date
- * @property integer $created_by
- * @property string $created_date
- * @property string $modified_date
+ * The followings are the available columns in table 'AuthItemChild':
+ * @property string $parent
+ * @property string $child
  */
-class EsplFinance extends CActiveRecord
+class AuthItemChild extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'espl_finance';
+		return 'AuthItemChild';
 	}
 
 	/**
@@ -30,12 +25,11 @@ class EsplFinance extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('project_id', 'required'),
-			array('project_id, created_by', 'numerical', 'integerOnly'=>true),
-			array('registerd_issue_date, travel_invoice_due_date', 'safe'),
+			array('parent, child', 'required'),
+			array('parent, child', 'length', 'max'=>64),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, project_id, registerd_issue_date, travel_invoice_due_date, created_by, created_date, modified_date', 'safe', 'on'=>'search'),
+			array('parent, child', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,13 +50,8 @@ class EsplFinance extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'project_id' => 'Project',
-			'registerd_issue_date' => 'Registerd Issue Date',
-			'travel_invoice_due_date' => 'Travel Invoice Due Date',
-			'created_by' => 'Created By',
-			'created_date' => 'Created Date',
-			'modified_date' => 'Modified Date',
+			'parent' => 'Parent',
+			'child' => 'Child',
 		);
 	}
 
@@ -83,14 +72,9 @@ class EsplFinance extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
-        //$criteria->select = 'espl_proposal.project_title,espl_employee_details.name as teamleadname,';
-		$criteria->compare('id',$this->id);
-		$criteria->compare('project_id',$this->project_id);
-		$criteria->compare('registerd_issue_date',$this->registerd_issue_date,true);
-		$criteria->compare('travel_invoice_due_date',$this->travel_invoice_due_date,true);
-		$criteria->compare('created_by',$this->created_by);
-		$criteria->compare('created_date',$this->created_date,true);
-		$criteria->compare('modified_date',$this->modified_date,true);
+
+		$criteria->compare('parent',$this->parent,true);
+		$criteria->compare('child',$this->child,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -101,7 +85,7 @@ class EsplFinance extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return EsplFinance the static model class
+	 * @return AuthItemChild the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

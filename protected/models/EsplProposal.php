@@ -103,8 +103,8 @@ class EsplProposal extends CActiveRecord
 			'client_representative_email' => 'Client Representative Email',
 			'client_representative_phone' => 'Client Representative Phone',
 			'client_address' => 'Client Address',
-			'project_title' => 'Proposal Name',
-            'status_name'=>'Status',
+			'project_title' => 'Project Title',
+            'status_name'=>'Proposal Status',
              'created_by'=>'Created By',
             'attachment_image'=>'Attachment',
 			'project_external_number' => 'Project External Number',
@@ -133,7 +133,7 @@ class EsplProposal extends CActiveRecord
 
 		$criteria=new CDbCriteria;
         $criteria->alias = 'e';
-        $criteria->select = 'e.created_by,d.status_name,e.project_title,e.proposal_issue_date,e.proposa_revision_number,e.attachment_image,e.created_date,e.modified_date';
+        $criteria->select = 'concat(e.contract_value," ",e.contract_value_currency) as contract_value,e.proposal_status,e.created_by,e.id,d.status_name,e.project_title,e.proposal_issue_date,e.proposa_revision_number,e.attachment_image,e.created_date,e.modified_date';
 		$criteria->compare('id',$this->id);
 		$criteria->compare('service_type',$this->service_type,true);
 		$criteria->compare('service_category',$this->service_category,true);

@@ -28,7 +28,7 @@ class EsplLeaves extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('leave_name, total_leaves, created_date, modified_date', 'required'),
+			array('leave_name, total_leaves', 'required'),
 			array('leave_name, total_leaves', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
