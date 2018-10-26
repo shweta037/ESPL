@@ -263,17 +263,23 @@
 
 
 
-                                        <label>Attachment</label><br/>
+                                        <label>Proposal Attachment</label><br/>
+                                        <style>
+                                            .fileinput-new > img{
+                                                width: 100px;height: 100px;
+                                            }
+                                        </style>
 
                                         <div class="fileinput fileinput-new text-center col-md-12" data-provides="fileinput">
-                                            <div class="fileinput-new thumbnail" >
+                                            <div class="fileinput-new thumbnail"  >
                                                 <?php if(isset($model['attachment_image'])){?>
 
-                                                   <a href='<?php echo Yii::app()->request->baseUrl;?>/protected/attachment/<?php echo $model['attachment_image'];?>' ><?php echo $model['attachment_image'];?>
+                                                   <a href='<?php echo Yii::app()->request->baseUrl;?>/protected/attachment/<?php echo $model['attachment_image'];?>' >
+                                                       <?php echo $model['attachment_image'];?>
                                                <!-- <img src="<?php /*echo Yii::app()->request->baseUrl."/protected/attachment/".$model['attachment_image'];*/?>" alt=""?>-->
                                             <?php } ?>
                                             </div>
-                                            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail" style="width: 100px;height: 100px;"></div>
                                             <div>
                           <span class="btn btn-rose btn-round btn-file">
                             <span class="fileinput-new">Select Attachment</span>
