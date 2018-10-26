@@ -35,7 +35,7 @@ class UsersController extends Controller
 
         {
 
-            $arr =array('index','view','create','update','admin');   // give all access to admin
+            $arr =array('index','view','create','update','admin','combo_off');   // give all access to admin
 
         }else if( Yii::app()->user->getState('role') =="Project")
 
@@ -146,7 +146,7 @@ class UsersController extends Controller
                 'whatsapp_number'=> $_POST['whatsapp_number'],
                 'active_status'=> $_POST['active_status'],
                 'created_date'=>date('Y-m-d H:i:s'),
-                    'created_by'=>Yii::app()->user->getId(),
+                    'created_by'=>Yii::app()->user->name,
                     )
 
 
@@ -175,6 +175,7 @@ class UsersController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->loadModel($id);
+        print_r($model->getErrors());
 
 
         // $model= Users::model()->findAll();
@@ -230,7 +231,7 @@ class UsersController extends Controller
                             'whatsapp_number' => $_POST['whatsapp_number'],
                             'active_status' => $_POST['active_status'],
                             'created_date' => date('Y-m-d H:i:s'),
-                            'created_by'=>Yii::app()->user->getId(),
+                            'created_by'=>Yii::app()->user->name,
                             ),
 
                         'user_id=:user_id',
@@ -317,6 +318,37 @@ class UsersController extends Controller
         if($model===null)
             throw new CHttpException(404,'The requested page does not exist.');
         return $model;
+    }
+
+    public function actioncombo_off($id){
+      //  echo $id;
+
+       // print_r($_POST);
+
+        $this->layout = false;
+
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
+        $this->render('comboffusers');
+        $this->render('/include/dashboard_footer');
+        if(isset($_POST)){
+            $leaveupdate = Yii::app()->db->createCommand()
+                ->update(
+                    'espl_employee_details',
+                    array(
+                        'comobo_off' => $_POST['allotcombleave'],
+
+                    ),
+                    'user_id=:user_id',
+                    array(':user_id' => $id)
+                );
+
+
+        }
+
+        if($leaveupdate)
+
+            $this->actionAdmin();
     }
 
     /**

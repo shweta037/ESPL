@@ -16,6 +16,7 @@ class SiteController extends Controller
 
     public function accessRules()
     {
+
         return array(
             array('allow',  // allow all users to perform only 'login' action
                 'actions'=>array('login'),
@@ -78,9 +79,10 @@ class SiteController extends Controller
 		if($error=Yii::app()->errorHandler->error)
 		{
 			if(Yii::app()->request->isAjaxRequest)
-				echo $error['message'];
+				//echo $error['message'];
+                $this->render('site/error' , array( 'error' => $error ));
 			else
-				$this->render('error', $error);
+				$this->render('site/error', array( 'error' => $error ));
 		}
 	}
 
@@ -139,22 +141,24 @@ if( mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers)){
 
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
-                /*$url = Yii::app()->createUrl('site/index');
-            Yii::app()->request->redirect($url);*/
-         /*$this->render('/include/dashboard_header');
+			if($model->validate() && $model->login()) {
+                //$this->redirect(Yii::app()->user->returnUrl);
+                $url = Yii::app()->createUrl('dashboard/index');
+                Yii::app()->request->redirect($url);
+            }
+      /*     $this->render('/include/dashboard_header');
             $this->render('/include/dashboard_leftbar');
             $this->render('/site/dashboard');
             $this->render('/include/dashboard_header');*/
 
 		}
 		// display the login form
-        $this->render('login_header');
-		$this->render('login',array('model'=>$model));
-        $this->render('login_footer');
+        if( Yii::app()->user->getState('role') == '') {
+            $this->render('login_header');
+            $this->render('login', array('model' => $model));
+            $this->render('login_footer');
 
-
+        }
 	}
 
 	/**
@@ -167,4 +171,6 @@ if( mail(Yii::app()->params['adminEmail'],$subject,$model->body,$headers)){
         Yii::app()->request->redirect($url);
 		//$this->redirect(Yii::app()->homeUrl);
 	}
+
+
 }

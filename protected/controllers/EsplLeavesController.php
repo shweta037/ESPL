@@ -24,27 +24,58 @@ class EsplLeavesController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-	public function accessRules()
-	{
+
+    public function accessRules()
+
+    {
+
         $this->layout = false;
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
+
+        if( Yii::app()->user->getState('role') =="Admin")
+
+        {
+
+            $arr =array('index','view','create','update','admin','leaves_number');   // give all access to admin
+
+        }else if( Yii::app()->user->getState('role') =="Project")
+
+        {
+
+            $arr =array('index','create','view','update','admin','leaves_number');  // give all access to staff
+
+        }
+
+        else
+
+        {
+
+            $arr = array('');         //  no access to other user
+
+        }
+
+
+
+        return array(
+
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+
+                'actions'=>$arr,
+
+                'users'=>array('@'),
+
+            ),
+
+
+
+            array('deny',  // deny all users
+
+                'users'=>array('*'),
+
+            ),
+
+        );
+
+    }
 
 	/**
 	 * Displays a particular model.
@@ -74,8 +105,11 @@ class EsplLeavesController extends Controller
 		if(isset($_POST['EsplLeaves']))
 		{
 			$model->attributes=$_POST['EsplLeaves'];
+            $model['created_date']=date('Y-m-d H:i:s');
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('esplLeaves/admin');
+            Yii::app()->request->redirect($url);
 		}
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
@@ -101,7 +135,9 @@ class EsplLeavesController extends Controller
 		{
 			$model->attributes=$_POST['EsplLeaves'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				//this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('esplLeaves/admin');
+            Yii::app()->request->redirect($url);
 		}
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');

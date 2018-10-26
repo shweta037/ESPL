@@ -24,28 +24,58 @@ class EsplLeaveManagementController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-	public function accessRules()
-	{
-        $this->layout = false;
-		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','leaves_number'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
-			),
-			array('deny',  // deny all users
-				'users'=>array('*'),
-			),
-		);
-	}
 
+    public function accessRules()
+
+    {
+
+        $this->layout = false;
+
+        if( Yii::app()->user->getState('role') =="Admin")
+
+        {
+
+            $arr =array('index','view','create','update','admin','leaves_number','approved','cancel','partial','partialapprove');   // give all access to admin
+
+        }else if( Yii::app()->user->getState('role') =="Project")
+
+        {
+
+            $arr =array('index','create','view','update','admin','leaves_number');  // give all access to staff
+
+        }
+
+        else
+
+        {
+
+            $arr = array('');         //  no access to other user
+
+        }
+
+
+
+        return array(
+
+            array('allow', // allow authenticated user to perform 'create' and 'update' actions
+
+                'actions'=>$arr,
+
+                'users'=>array('@'),
+
+            ),
+
+
+
+            array('deny',  // deny all users
+
+                'users'=>array('*'),
+
+            ),
+
+        );
+
+    }
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -247,15 +277,88 @@ class EsplLeaveManagementController extends Controller
 
     //ajax function to get sub categories
     public function actionleaves_number(){
-        $leaveid=$_POST['leave_type'];;
+        $leaveid=$_POST['leave_type'];
         $data = Yii::app()->db->createCommand('SELECT total_leaves FROM  espl_leaves  where id= "'.$leaveid.'"')->queryAll();
 
       //  print_r($data);exit;
         foreach($data as $name)
         {
-          echo $name['total_leaves'];
+          //echo $leaveid."*****".$name['total_leaves'];
+            echo $name['total_leaves'];
         }
         // exit;
     }
 
+    public function actionapproved($id){
+      //  print_r($id);
+        $leaveapproval = Yii::app()->db->createCommand()
+            ->update(
+                'espl_leave_management',
+                array(
+                    'leave_status' => '13',
+                    'approved_by'=>Yii::app()->user->name,
+                ),
+                'id=:id',
+                array(':id' => $id)
+            );
+
+        if($leaveapproval){
+            $url = Yii::app()->createUrl('esplLeaveManagement/admin');
+            Yii::app()->request->redirect($url);
+        }
+    }
+    public function actioncancel($id){
+        //  print_r($id);
+        $leaveapproval = Yii::app()->db->createCommand()
+            ->update(
+                'espl_leave_management',
+                array(
+                    'leave_status' => '14',
+                    'approved_by'=>Yii::app()->user->name,
+                ),
+                'id=:id',
+                array(':id' => $id)
+            );
+
+        if($leaveapproval){
+            $url = Yii::app()->createUrl('esplLeaveManagement/admin');
+            Yii::app()->request->redirect($url);
+        }
+    }
+    public function actionpartial($id){
+
+    $this->layout = false;
+
+    $this->render('/include/dashboard_header');
+    $this->render('/include/dashboard_leftbar');
+    $this->render('partialleave');
+    $this->render('/include/dashboard_footer');
+
+
+}
+
+public function actionpartialapprove(){
+  //  echo ;
+//print_r($_POST);exit;
+    $id= $_POST['id'];
+    $leaveapproval = Yii::app()->db->createCommand()
+        ->update(
+            'espl_leave_management',
+            array(
+                'leave_status' => '15',
+                'approved_by' => Yii::app()->user->name,
+                'approved_from' => $_POST['from_date'],
+                'approved_to' => $_POST['to_date'],
+            ),
+            'id=:id',
+            array(':id' => $id)
+        );
+    if($leaveapproval){
+        $url = Yii::app()->createUrl('esplLeaveManagement/admin');
+        Yii::app()->request->redirect($url);
+        Yii::app()->user->setFlash('success', "Leave Partially Approved");
+    }
+}
+
+   // }
 }

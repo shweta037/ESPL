@@ -1,6 +1,6 @@
 <?php
 
-class EsplClientController extends Controller
+class AuthAssignmentController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -24,64 +24,26 @@ class EsplClientController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-    public function accessRules()
-
-    {
-
-        $this->layout = false;
-
-
-        if( Yii::app()->user->getState('role') =="Admin")
-
-        {
-
-            $arr =array('index','view','create','update','admin','dynamicsubcategories','employeedetails','serviceCategoriesList');   // give all access to admin
-
-        }else if( Yii::app()->user->getState('role') =="Project")
-
-        {
-
-            $arr =array('index','create','view','update','admin');  // give all access to staff
-
-        }else if( Yii::app()->user->getState('role') =="Proposal")
-
-        {
-
-            $arr =array('index','create','view','update','admin');  // give all access to staff
-
-        }
-
-        else
-
-        {
-
-            $arr = array('');         //  no access to other user
-
-        }
-
-
-
-        return array(
-
-            array('allow', // allow authenticated user to perform 'create' and 'update' actions
-
-                'actions'=>$arr,
-
-                'users'=>array('@'),
-
-            ),
-
-
-
-            array('deny',  // deny all users
-
-                'users'=>array('*'),
-
-            ),
-
-        );
-
-    }
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view'),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('admin','delete'),
+				'users'=>array('admin'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
 
 	/**
 	 * Displays a particular model.
@@ -89,12 +51,9 @@ class EsplClientController extends Controller
 	 */
 	public function actionView($id)
 	{
-        $this->render('/include/dashboard_header');
-        $this->render('/include/dashboard_leftbar');
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
-        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -103,26 +62,21 @@ class EsplClientController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new EsplClient;
+		$model=new AuthAssignment;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['EsplClient']))
+		if(isset($_POST['AuthAssignment']))
 		{
-			$model->attributes=$_POST['EsplClient'];
-            $model['created_date']=date('Y-m-d H:i:s');
+			$model->attributes=$_POST['AuthAssignment'];
 			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
-            $url = Yii::app()->createUrl('esplClient/admin');
-            Yii::app()->request->redirect($url);
+				$this->redirect(array('view','id'=>$model->itemname));
 		}
-        $this->render('/include/dashboard_header');
-        $this->render('/include/dashboard_leftbar');
+
 		$this->render('create',array(
 			'model'=>$model,
 		));
-        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -137,20 +91,16 @@ class EsplClientController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['EsplClient']))
+		if(isset($_POST['AuthAssignment']))
 		{
-			$model->attributes=$_POST['EsplClient'];
+			$model->attributes=$_POST['AuthAssignment'];
 			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
-                $url = Yii::app()->createUrl('esplClient/admin');
-            Yii::app()->request->redirect($url);
+				$this->redirect(array('view','id'=>$model->itemname));
 		}
-        $this->render('/include/dashboard_header');
-        $this->render('/include/dashboard_leftbar');
+
 		$this->render('update',array(
 			'model'=>$model,
 		));
-        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -172,13 +122,10 @@ class EsplClientController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('EsplClient');
-        $this->render('/include/dashboard_header');
-        $this->render('/include/dashboard_leftbar');
+		$dataProvider=new CActiveDataProvider('AuthAssignment');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
-        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -186,28 +133,26 @@ class EsplClientController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new EsplClient('search');
+		$model=new AuthAssignment('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['EsplClient']))
-			$model->attributes=$_GET['EsplClient'];
-        $this->render('/include/dashboard_header');
-        $this->render('/include/dashboard_leftbar');
+		if(isset($_GET['AuthAssignment']))
+			$model->attributes=$_GET['AuthAssignment'];
+
 		$this->render('admin',array(
 			'model'=>$model,
 		));
-        $this->render('/include/dashboard_footer');
 	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return EsplClient the loaded model
+	 * @return AuthAssignment the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=EsplClient::model()->findByPk($id);
+		$model=AuthAssignment::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -215,11 +160,11 @@ class EsplClientController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param EsplClient $model the model to be validated
+	 * @param AuthAssignment $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='espl-client-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='auth-assignment-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

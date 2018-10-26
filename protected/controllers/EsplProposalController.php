@@ -108,14 +108,15 @@ class EsplProposalController extends Controller
 
 		if(isset($_POST['EsplProposal']))
 		{
-
-
             $model->attributes=$_POST['EsplProposal'];
             $model['service_sub_category'] = implode(",",$_POST['EsplProposal']['service_sub_category']);
+            $invoice_stage_id = "";
             if(isset($_POST['EsplProposal']['invoice_status_ids'])) {
                 $model['invoice_status_ids'] = implode(",", $_POST['EsplProposal']['invoice_status_ids']);
+                $invoice_stage_id = $model['invoice_status_ids'];
             }
             $model['created_date']= date("Y-m-d H:i:s");
+            $model['created_by']= Yii::app()->user->name;
             $vid_img = time().$_FILES['attachment_image']['name'];
             if (!empty($_FILES['attachment_image'])) {
                 /*move to the folder*/
@@ -147,7 +148,39 @@ class EsplProposalController extends Controller
                                        'created_date' => $created_date,
                                    )
                                );
-               }
+                           $lastid = Yii::app()->db->getLastInsertId();
+                           if($lastid){
+                               if (isset($_POST['txt_milestone_name']) && $_POST['txt_milestone_name'] != null) {
+                                   foreach ($_POST['txt_milestone_stageid'] as $key => $item) {
+                                       $project_finance_stage = Yii::app()->db->createCommand()
+                                           ->insert(
+                                               'espl_project_finance_stage',
+                                               array(
+                                                   'project_id' => $lastid,
+                                                   'stage_name' => $_POST['txt_milestone_name'][$key],
+                                                   'created_date' => $created_date,
+                                               )
+                                           );
+                                   }
+                               }else{
+                                   if(isset($_POST['EsplProposal']['invoice_status_ids'])) {
+                                       foreach ($_POST['EsplProposal']['invoice_status_ids'] as $key=>$stages){
+                                           $stage_details =  Yii::app()->db->createCommand('SELECT invoice_stage.id as id,invoice_stage.stage_name FROM invoice_stage where id=$stages')->queryRow();
+                                           $project_finance_stage = Yii::app()->db->createCommand()
+                                               ->insert(
+                                                   'espl_project_finance_stage',
+                                                   array(
+                                                       'project_id' => $lastid,
+                                                       'stage_name' => $stage_details['stage_name'],
+                                                       'created_date' => $created_date,
+                                                   )
+                                               );
+                                       }
+
+                                    }
+                               }
+                           }
+                    }
 
                if ($_POST['EsplProposal']['service_type'] != 1 && isset($_POST['txt_milestone_name']) && $_POST['txt_milestone_name'] != null) {
                    foreach ($_POST['txt_milestone_stageid'] as $key => $item) {
@@ -207,6 +240,7 @@ class EsplProposalController extends Controller
                 $model['invoice_status_ids'] = implode(",", $_POST['EsplProposal']['invoice_status_ids']);
             }
             $model['created_date']= date("Y-m-d H:i:s");
+            $model['created_by']= Yii::app()->user->name;
             $vid_img = time().$_FILES['attachment_image']['name'];
             if (!empty($_FILES['attachment_image'])) {
                 /*move to the folder*/
@@ -228,16 +262,47 @@ class EsplProposalController extends Controller
                                 'proposal_id' => $id
                             )
                         );
+                    $lastid = Yii::app()->db->getLastInsertId();
+                    if($lastid){
+                        $created_date = date("Y-m-d H:i:s");
+                        if (isset($_POST['txt_milestone_name']) && $_POST['txt_milestone_name'] != null) {
+                            foreach ($_POST['txt_milestone_stageid'] as $key => $item) {
+                                $project_finance_stage = Yii::app()->db->createCommand()
+                                    ->insert(
+                                        'espl_project_finance_stage',
+                                        array(
+                                            'project_id' => $lastid,
+                                            'stage_name' => $_POST['txt_milestone_name'][$key],
+                                            'created_date' => $created_date,
+                                        )
+                                    );
+                            }
+                        }else{
+                            if(isset($_POST['EsplProposal']['invoice_status_ids'])) {
+                                foreach ($_POST['EsplProposal']['invoice_status_ids'] as $key=>$stages){
+                                    $stage_details =  Yii::app()->db->createCommand('SELECT invoice_stage.id as id,invoice_stage.stage_name FROM invoice_stage where id=$stages')->queryRow();
+                                    $project_finance_stage = Yii::app()->db->createCommand()
+                                        ->insert(
+                                            'espl_project_finance_stage',
+                                            array(
+                                                'project_id' => $lastid,
+                                                'stage_name' => $stage_details['stage_name'],
+                                                'created_date' => $created_date,
+                                            )
+                                        );
+                                }
+
+                            }
+                        }
+                    }
                 }
 
-
-
                 if ($_POST['EsplProposal']['service_type'] != 1 && isset($_POST['txt_milestone_name']) && $_POST['txt_milestone_name'] != null) {
-                    $milestonelist = Yii::app()->db->createCommand('SELECT stage_id FROM espl_proposal_milestone where proposal_id="' . $id . '"')->queryAll();
-                    $milestone_list = array();
-                    foreach ($milestonelist as $k => $milestonelist1) {
-                        $milestone_list[] = $milestonelist[$k]['stage_id'];
-                    }
+                        $milestonelist = Yii::app()->db->createCommand('SELECT stage_id FROM espl_proposal_milestone where proposal_id="' . $id . '"')->queryAll();
+                        $milestone_list = array();
+                        foreach ($milestonelist as $k => $milestonelist1) {
+                            $milestone_list[] = $milestonelist[$k]['stage_id'];
+                        }
 
                     foreach ($_POST['txt_milestone_stageid'] as $key => $item) {
                         if (in_array($item, $milestone_list)) {

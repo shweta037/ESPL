@@ -1,6 +1,6 @@
 <?php
 
-class EsplClientController extends Controller
+class ProjectTimeSheetController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -24,63 +24,26 @@ class EsplClientController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-    public function accessRules()
-
-    {
-
+    public function accessRules(){
         $this->layout = false;
-
-
-        if( Yii::app()->user->getState('role') =="Admin")
-
-        {
-
-            $arr =array('index','view','create','update','admin','dynamicsubcategories','employeedetails','serviceCategoriesList');   // give all access to admin
-
-        }else if( Yii::app()->user->getState('role') =="Project")
-
-        {
-
-            $arr =array('index','create','view','update','admin');  // give all access to staff
-
-        }else if( Yii::app()->user->getState('role') =="Proposal")
-
-        {
-
-            $arr =array('index','create','view','update','admin');  // give all access to staff
-
-        }
-
-        else
-
-        {
-
+        if( Yii::app()->user->getState('role') =="Admin"){
+            $arr =array('index','view','create','update','admin','Delete','alltimesheet');   // give all access to admin
+        }else if( Yii::app()->user->getState('role') =="Project"){
+            $arr =array('index','view','update','create','admin','delete','alltimesheet');  // give all access to staff
+        }else if( Yii::app()->user->getState('role') =="Finance"){
+            $arr =array('index','view','update','create','admin','delete','alltimesheet');  // give all access to staff
+        }else{
             $arr = array('');         //  no access to other user
-
         }
-
-
-
         return array(
-
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-
                 'actions'=>$arr,
-
                 'users'=>array('@'),
-
             ),
-
-
-
             array('deny',  // deny all users
-
                 'users'=>array('*'),
-
             ),
-
         );
-
     }
 
 	/**
@@ -89,12 +52,9 @@ class EsplClientController extends Controller
 	 */
 	public function actionView($id)
 	{
-        $this->render('/include/dashboard_header');
-        $this->render('/include/dashboard_leftbar');
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
-        $this->render('/include/dashboard_footer');
 	}
 
 	/**
@@ -103,19 +63,25 @@ class EsplClientController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new EsplClient;
+		$model=new ProjectTimeSheet;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['EsplClient']))
+		if(isset($_POST['ProjectTimeSheet']))
 		{
-			$model->attributes=$_POST['EsplClient'];
-            $model['created_date']=date('Y-m-d H:i:s');
-			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
-            $url = Yii::app()->createUrl('esplClient/admin');
-            Yii::app()->request->redirect($url);
+
+			$model->attributes=$_POST['ProjectTimeSheet'];
+			$model['user_id'] = Yii::app()->user->id;
+            /*echo "<pre>";
+            print_r($model->attributes);
+            die;*/
+            $date = date('Y-m-d H:i:s');
+            $model['created_date'] = $date;
+            if($model->save()) {
+                $url = Yii::app()->createUrl('projectTimeSheet/admin');
+                Yii::app()->request->redirect($url);
+            }
 		}
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
@@ -137,13 +103,14 @@ class EsplClientController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['EsplClient']))
+		if(isset($_POST['ProjectTimeSheet']))
 		{
-			$model->attributes=$_POST['EsplClient'];
-			if($model->save())
-				//$this->redirect(array('view','id'=>$model->id));
-                $url = Yii::app()->createUrl('esplClient/admin');
-            Yii::app()->request->redirect($url);
+			$model->attributes=$_POST['ProjectTimeSheet'];
+            if($model->save()) {
+                //$this->redirect(array('view','id'=>$model->id));
+                $url = Yii::app()->createUrl('projectTimeSheet/alltimesheet/'.$model->attributes['project_id']);
+                Yii::app()->request->redirect($url);
+            }
 		}
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
@@ -152,6 +119,18 @@ class EsplClientController extends Controller
 		));
         $this->render('/include/dashboard_footer');
 	}
+
+	public function actionalltimesheet(){
+
+        $model=new ProjectAllTimeSheet;
+        $model->unsetAttributes();  // clear any default values
+        $this->render('/include/dashboard_header');
+        $this->render('/include/dashboard_leftbar');
+        $this->render('_alltimesheet',array(
+            'model'=>$model,
+        ));
+        $this->render('/include/dashboard_footer');
+    }
 
 	/**
 	 * Deletes a particular model.
@@ -172,7 +151,7 @@ class EsplClientController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('EsplClient');
+		$dataProvider=new CActiveDataProvider('ProjectTimeSheet');
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
 		$this->render('index',array(
@@ -186,10 +165,10 @@ class EsplClientController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new EsplClient('search');
+		$model=new ProjectTimeSheet('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['EsplClient']))
-			$model->attributes=$_GET['EsplClient'];
+		if(isset($_GET['ProjectTimeSheet']))
+			$model->attributes=$_GET['ProjectTimeSheet'];
         $this->render('/include/dashboard_header');
         $this->render('/include/dashboard_leftbar');
 		$this->render('admin',array(
@@ -202,12 +181,12 @@ class EsplClientController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return EsplClient the loaded model
+	 * @return ProjectTimeSheet the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=EsplClient::model()->findByPk($id);
+		$model=ProjectTimeSheet::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -215,11 +194,11 @@ class EsplClientController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param EsplClient $model the model to be validated
+	 * @param ProjectTimeSheet $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='espl-client-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='project-time-sheet-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
